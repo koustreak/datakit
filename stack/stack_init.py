@@ -1,6 +1,6 @@
 # Author : Koushik Dutta
 # Email : koushikdutta2024@outlook.com
-# Date : 20-June-2023
+# Date : 20-June-2024
 # Version : 1.0 Major
 # Purpose : stack data structure ADT Version
 
@@ -10,18 +10,17 @@ from exceptions import StackOverflow
 from exceptions import StackEmpty
 from exceptions import ValidationTypeError
 
-class Stack(object):
+class Init(object):
 
     def __init__(self, size: int, safe_mode: bool = False) -> None:
 
         """
-
         :param size: size of the stack
         :param safe_mode: if safe_mode is on then stack size reduction is done if there is no data-loss
         :return: None
         """
 
-        Stack.__validation(size,safe_mode)
+        Init.__validation(size, safe_mode)
         self.__size = size
         self.__safe_mode = safe_mode
 
@@ -32,7 +31,6 @@ class Stack(object):
     def __validation(size, safe_mode):
 
         """
-
         This process checks if the size of the stack is of valid datatype.
         Size variable should be a
         :return: None
@@ -51,7 +49,6 @@ class Stack(object):
     def push(self, element=None) -> bool:
 
         """
-
         inserting into stack
         :param element: element to be inserted
         :return: boolean
@@ -74,7 +71,6 @@ class Stack(object):
     def pop(self) -> object:
 
         """
-
         :return: an element from stack
         :raise: stack_underflow exceptions
         """
@@ -95,7 +91,6 @@ class Stack(object):
     def get_stack_size(self):
 
         """
-
         Returns the size of the stack
         :return: Integer value of the size of the stack
         """
@@ -105,9 +100,56 @@ class Stack(object):
     def get_top(self):
 
         """
-
         Returns the top of the stack
         :return: Integer value of the top of the stack
         """
 
         return self.__top
+
+    def increase_size(self) -> bool:
+
+        """
+        increase the size of the stack
+        :return: boolean
+        """
+
+        try:
+            self.__stack = self.__stack.extend([None] * self.__size)
+            self.__size += self.__size
+            return True
+        except Exception as ex:
+            print('Error while increase size of stack ',str(ex))
+            return False
+
+    def decrease_size(self) -> bool:
+
+        """
+        decrease the size of the stack
+        :return:
+        """
+
+        try:
+            self.__stack = self.__stack[:self.__size//2]
+            self.__size -= self.__size//2
+            return True
+        except Exception as ex:
+            print('Error while decrease size of stack ',str(ex))
+            return False
+
+    def is_empty(self) -> bool:
+
+        """
+        Check if the stack is empty
+        :return: boolean
+        """
+
+        return self.__top == -1
+
+    def is_full(self) -> bool:
+
+        """
+        Check if the stack is empty
+        :return: boolean
+        """
+
+        return self.__top == self.__size-1

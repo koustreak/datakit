@@ -30,10 +30,16 @@ class StackPopError(Exception):
     def __init__(self,msg) -> None:
         super().__init__("Error while inserting data into stack ",msg)
 
-class StackPopError(Exception):
+class InvalidParameter(Exception):
 
     def __init__(self,msg) -> None:
-        super().__init__("Error while inserting data into stack ",msg)
+        super().__init__(msg)
+
+class StackDownsizeError(Exception):
+
+    def __init__(self) -> None:
+        super().__init__('Can not downsize the error, as it can result in data leak \n'
+                         'if stack_downsize is forced then please disable safe_mode')
 
 
 
