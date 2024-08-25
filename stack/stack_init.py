@@ -28,7 +28,7 @@ class Init(object):
         self.__top = -1
 
     @staticmethod
-    def __validation(size, safe_mode):
+    def __validation(size, safe_mode) -> None:
 
         """
         This process checks if the size of the stack is of valid datatype.
@@ -46,7 +46,7 @@ class Init(object):
         if not isinstance(safe_mode, bool):
             raise ValidationTypeError(stack_texts.stack_safe_mode_flag_error)
 
-    def push(self, element=None) -> bool:
+    def push(self, element=None) -> None:
 
         """
         inserting into stack
@@ -63,10 +63,8 @@ class Init(object):
         try:
             self.__top += 1
             self.__stack[self.__top] = element
-            return True
         except Exception as ex:
-            print('Error while insert into stack ',str(ex))
-            return False
+            raise Exception('Error while insert into stack ',str(ex))
 
     def pop(self) -> object:
 
@@ -78,17 +76,15 @@ class Init(object):
         if self.__top == -1:
             raise StackEmpty()
 
-        element_returned = None
         try:
             element_returned = self.__stack[self.__top]
             self.__stack[self.__top] = None
             self.__top -= 1
+            return element_returned
         except Exception as ex:
-            print('Error while pop from stack ',str(ex))
+            raise Exception('Error while pop from stack ',str(ex))
 
-        return element_returned
-
-    def get_stack_size(self):
+    def get_stack_size(self) -> int:
 
         """
         Returns the size of the stack
@@ -97,7 +93,7 @@ class Init(object):
 
         return self.__size
 
-    def get_top(self):
+    def get_top(self) -> int:
 
         """
         Returns the top of the stack
@@ -106,7 +102,7 @@ class Init(object):
 
         return self.__top
 
-    def increase_size(self) -> bool:
+    def increase_size(self) -> None:
 
         """
         increase the size of the stack
@@ -116,12 +112,10 @@ class Init(object):
         try:
             self.__stack = self.__stack.extend([None] * self.__size)
             self.__size += self.__size
-            return True
         except Exception as ex:
-            print('Error while increase size of stack ',str(ex))
-            return False
+            raise Exception('Error while increase size of stack ',str(ex))
 
-    def decrease_size(self) -> bool:
+    def decrease_size(self) -> None:
 
         """
         decrease the size of the stack
@@ -131,10 +125,8 @@ class Init(object):
         try:
             self.__stack = self.__stack[:self.__size//2]
             self.__size -= self.__size//2
-            return True
         except Exception as ex:
-            print('Error while decrease size of stack ',str(ex))
-            return False
+            raise Exception('Error while decrease size of stack ',str(ex))
 
     def is_empty(self) -> bool:
 

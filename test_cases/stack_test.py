@@ -1,6 +1,7 @@
 import stack
 import unittest
 
+'''
 class StackTest(unittest.TestCase):
 
     def test_stack_size(self):
@@ -24,3 +25,17 @@ class StackTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+'''
+
+def test1(val):
+
+    try:
+        print(10/val)
+    except ZeroDivisionError as ex:
+        raise ex
+    finally:
+        return 100
+
+x = test1(0)
+print(x)
