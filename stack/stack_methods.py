@@ -7,7 +7,6 @@ import math
 
 from stack import init_stack
 from exceptions import InvalidParameter, StackInitError
-from exceptions import NoneInputError
 from exceptions import StackDownsizeError
 from fnd_messages import stack_texts
 from typing import List
@@ -175,7 +174,7 @@ def stack_from_collections(input_collection) -> object:
     """
 
     if not input_collection:
-        raise NoneInputError()
+        raise StackInitError()
 
     stack = init_stack(len(input_collection))
     for i in input_collection:

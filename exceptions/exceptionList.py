@@ -54,12 +54,7 @@ class StackMinMaxError(Exception):
 class StackInitError(Exception):
 
     def __init__(self,obj_type,msg) -> None:
-        super().__init__('Can not Initialize a stack from the input ',obj_type,msg)
-
-class NoneInputError(Exception):
-
-    def __init__(self) -> None:
-        super().__init__('Can not Initialize a stack from the None input ',None)
+        super().__init__('Can not Initialize a stack from the None input ',obj_type,msg)
 
 class bcolors:
     HEADER = '\033[95m'
