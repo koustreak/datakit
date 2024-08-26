@@ -1,1 +1,1 @@
-from stack_init import Init as init_stack
+from stack_init import Init

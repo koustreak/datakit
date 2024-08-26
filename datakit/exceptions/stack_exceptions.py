@@ -3,8 +3,6 @@
 # Version : 1.0 Major
 # Purpose : stack data structure
 
-from typing import *
-
 class StackOverflow(Exception):
 
     def __init__(self) -> None:
@@ -56,16 +54,7 @@ class StackInitError(Exception):
     def __init__(self,obj_type,msg) -> None:
         super().__init__('Can not Initialize a stack from the None input ',obj_type,msg)
 
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+
 
 
 

@@ -3,14 +3,13 @@
 # Date : 25-Aug-2024
 # Version : 1.0 Major
 # Purpose : stack data structure ADT Version
-import math
 
-from stack import init_stack
-from exceptions import InvalidParameter, StackInitError
-from exceptions import StackDownsizeError
-from fnd_messages import stack_texts
+from stack import Init
+from datakit.exceptions import InvalidParameter, StackInitError
+from datakit.exceptions import StackDownsizeError
+from static import stack_texts
 from typing import List
-from exceptions import bcolors
+from datakit.exceptions import bcolors
 
 def stack_resize(stack, resize_option, safe_mode=True) -> bool:
 
@@ -57,7 +56,7 @@ def __push_pop(stack) -> List:
     try:
 
         element_list = []
-        temp_stack = init_stack(stack.get_stack_size())
+        temp_stack = Init(stack.get_stack_size())
         cur_top = stack.get_top()
 
         while cur_top >=0:
@@ -164,7 +163,7 @@ def find_average(stack) -> object:
     except Exception as ex:
         raise Exception('Error while finding min in stack ', str(ex))
 
-def stack_from_collections(input_collection) -> object:
+def __stack_from_collections(input_collection) -> object:
 
     """
     Create stack from input list
@@ -176,13 +175,13 @@ def stack_from_collections(input_collection) -> object:
     if not input_collection:
         raise StackInitError()
 
-    stack = init_stack(len(input_collection))
+    stack = Init(len(input_collection))
     for i in input_collection:
         stack.push(i)
         print('Element ',i,' inserted successfully in the stack')
 
     return stack
 
-stack_from_list = stack_from_collections
-stack_from_tuple = stack_from_collections
-stack_from_set = stack_from_collections
+stack_from_list = __stack_from_collections
+stack_from_tuple = __stack_from_collections
+stack_from_set = __stack_from_collections

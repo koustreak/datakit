@@ -5,10 +5,10 @@
 # Purpose : stack data structure ADT Version
 
 import warnings
-from fnd_messages import stack_texts
-from exceptions import StackOverflow
-from exceptions import StackEmpty
-from exceptions import ValidationTypeError
+from static import stack_texts
+from datakit.exceptions import StackOverflow
+from datakit.exceptions import StackEmpty
+from datakit.exceptions import ValidationTypeError
 
 class Init(object):
 
@@ -145,3 +145,5 @@ class Init(object):
         """
 
         return self.__top == self.__size-1
+
+obj = Init(10)
