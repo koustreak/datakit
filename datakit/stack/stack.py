@@ -5,14 +5,14 @@
 # Purpose : stack data structure ADT Version
 
 import warnings
-from static import stack_texts
-from datakit.exceptions import StackOverflow
-from datakit.exceptions import StackEmpty
-from datakit.exceptions import ValidationTypeError
+from datakit.exceptions.stack_exceptions import StackOverflow
+from datakit.exceptions.stack_exceptions import StackEmpty
+from datakit.exceptions.stack_exceptions import ValidationTypeError
+from datakit.exceptions.stack_exceptions import StackDownsizeError
 
 class Init(object):
 
-    def __init__(self, size: int, safe_mode: bool = False) -> None:
+    def __init__(self, size: int, safe_mode: bool = True) -> None:
 
         """
         :param size: size of the stack
@@ -27,6 +27,8 @@ class Init(object):
         self.__stack = [None] * size
         self.__top = -1
 
+        print(f"Stack Object created with ID: {id(self)}")
+
     @staticmethod
     def __validation(size, safe_mode) -> None:
 
@@ -37,14 +39,18 @@ class Init(object):
         :raise: Exception
         """
 
-        if not isinstance(size, int):
+        if isinstance(size, int):
             if size < 0:
-                raise ValidationTypeError(stack_texts.stack_size_error_text)
+                raise ValidationTypeError('stack size parameter should be positive integer')
+
+        if not isinstance(size, int):
+            raise ValidationTypeError('stack size parameter should be integer type')
+
         if size == 0:
-            warnings.warn(stack_texts.stack_size_zero_warn)
+            warnings.warn('size of stack is zero, still want to continue? ')
 
         if not isinstance(safe_mode, bool):
-            raise ValidationTypeError(stack_texts.stack_safe_mode_flag_error)
+            raise ValidationTypeError('safe_mode flag can only be True or False')
 
     def push(self, element=None) -> None:
 
@@ -55,7 +61,7 @@ class Init(object):
         :raise: Exception
         """
 
-        assert element is not None,stack_texts.push_element_is_none
+        assert element is not None, 'Please insert a not None element'
 
         if self.__top == self.__size - 1:
             raise StackOverflow()
@@ -64,7 +70,7 @@ class Init(object):
             self.__top += 1
             self.__stack[self.__top] = element
         except Exception as ex:
-            raise Exception('Error while insert into stack ',str(ex))
+            raise Exception('Error while push into stack ',str(ex))
 
     def pop(self) -> object:
 
@@ -115,18 +121,32 @@ class Init(object):
         except Exception as ex:
             raise Exception('Error while increase size of stack ',str(ex))
 
-    def decrease_size(self) -> None:
+    def __decrease_size(self) -> None:
 
+        warnings.warn(
+            "stack size decrease is deprecated, not supproted now, might cause data leak if used",
+            DeprecationWarning,
+            stacklevel=2
+        )
         """
         decrease the size of the stack
-        :return:
+        It is 
+        :return: None
+        :raises: Exception
         """
 
-        try:
-            self.__stack = self.__stack[:self.__size//2]
-            self.__size -= self.__size//2
-        except Exception as ex:
-            raise Exception('Error while decrease size of stack ',str(ex))
+        current_stack_size = self.get_stack_size()
+        current_top_pos = self.get_top()
+
+        if current_stack_size // 2 <= current_top_pos and self.__safe_mode:
+            raise StackDownsizeError()
+
+        if current_stack_size // 2 > current_top_pos:
+            try:
+                self.__stack = self.__stack[:self.__size//2]
+                self.__size -= self.__size//2
+            except Exception as ex:
+                raise Exception('Error while decrease size of stack ',str(ex))
 
     def is_empty(self) -> bool:
 
@@ -146,4 +166,5 @@ class Init(object):
 
         return self.__top == self.__size-1
 
-obj = Init(10)
+    def __del__(self):
+        print(f"Stack Object deleted with ID: {id(self)}")

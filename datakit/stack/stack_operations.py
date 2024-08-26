@@ -4,43 +4,12 @@
 # Version : 1.0 Major
 # Purpose : stack data structure ADT Version
 
-from stack import Init
-from datakit.exceptions import InvalidParameter, StackInitError
-from datakit.exceptions import StackDownsizeError
-from static import stack_texts
+from datakit.stack.stack import Init
+from datakit.exceptions.stack_exceptions import StackInitError
 from typing import List
-from datakit.exceptions import bcolors
+from datakit.exceptions.console_print import bcolors
 
-def stack_resize(stack, resize_option, safe_mode=True) -> bool:
-
-    """
-    it increases or decreases the size of the stack
-    if resize_option == '+' then it will double the size of the stack
-    if resize_option == '-' then it will reduce the size of the stack by half
-    Currently the stack implementation is with list, later it will be changed.
-    :param: resize_option : whether you want to downsize or increase the size of a stack
-    :param: safe_mode : if safe_mode is on then stack downsize can not take place if it results in data leak
-    :return: bool
-    """
-
-    if resize_option not in ('+', '-'):
-        raise InvalidParameter(stack_texts.stack_resize_option_error)
-
-    if resize_option == '+':
-        stack.increase_size()
-
-    if resize_option == '-':
-
-        current_stack_size = stack.get_stack_size()
-        if current_stack_size//2<=stack.get_top() and safe_mode:
-            raise StackDownsizeError()
-
-        if current_stack_size//2>stack.get_top():
-            stack.decrease_size()
-
-    return True
-
-def __push_pop(stack) -> List:
+def __push_pop(stack_obj) -> List:
 
     """
     In order to access middle element of a stack
@@ -52,15 +21,14 @@ def __push_pop(stack) -> List:
     :return: None
     """
 
-
     try:
 
         element_list = []
-        temp_stack = Init(stack.get_stack_size())
-        cur_top = stack.get_top()
+        temp_stack = Init(stack_obj.get_stack_size())
+        cur_top = stack_obj.get_top()
 
         while cur_top >=0:
-            cur_element = stack.pop()
+            cur_element = stack_obj.pop()
             element_list.append(cur_element)
             cur_top -= 1
             temp_stack.push(cur_element)
@@ -68,7 +36,7 @@ def __push_pop(stack) -> List:
         cur_top = temp_stack.get_top()
 
         while cur_top >=0:
-            stack.push(temp_stack.pop())
+            stack_obj.push(temp_stack.pop())
             cur_top -= 1
 
         del temp_stack
@@ -79,7 +47,7 @@ def __push_pop(stack) -> List:
         raise Exception('Error while doing push pop step with a temporary stack object ',str(ex))
 
 
-def get_max(stack) -> object:
+def get_max(stack_obj) -> object:
 
     """
     Find the maximum and minimum value in a stack
@@ -89,7 +57,7 @@ def get_max(stack) -> object:
 
     try:
 
-        stack_elements = __push_pop(stack)
+        stack_elements = __push_pop(stack_obj)
         max_element = None
         if stack_elements:
             max_element = max(stack_elements)
@@ -100,7 +68,7 @@ def get_max(stack) -> object:
     except Exception as ex:
         raise Exception('Error while finding max in stack ',str(ex))
 
-def get_min(stack) -> object:
+def get_min(stack_obj) -> object:
 
     """
     Find the maximum and minimum value in a stack
@@ -110,7 +78,7 @@ def get_min(stack) -> object:
 
     try:
 
-        stack_elements = __push_pop(stack)
+        stack_elements = __push_pop(stack_obj)
         min_element = None
         if stack_elements:
             min_element = min(stack_elements)
@@ -122,7 +90,7 @@ def get_min(stack) -> object:
         raise Exception('Error while finding min in stack ',str(ex))
 
 
-def print_stack(stack) -> None:
+def print_stack(stack_obj) -> None:
 
     """
     Find the maximum and minimum value in a stack
@@ -132,16 +100,16 @@ def print_stack(stack) -> None:
 
     try:
 
-        stack_elements = __push_pop(stack)
+        stack_elements = __push_pop(stack_obj)
         if stack_elements:
-            print('\n'.join(stack_elements[::-1]))
+            print('\n'.join([str(i) for i in stack_elements[::-1]]))
         else:
             print(bcolors.WARNING + "Warning: It Appears the stack is empty"+ bcolors.ENDC)
 
     except Exception as ex:
         raise Exception('Error while printing the stack element ', str(ex))
 
-def find_average(stack) -> object:
+def get_average(stack_obj) -> object:
 
     """
     Find the average of all elements of stack ,
@@ -152,10 +120,12 @@ def find_average(stack) -> object:
 
     try:
 
-        stack_elements = __push_pop(stack)
+        stack_elements = __push_pop(stack_obj)
         avg_value = None
         if stack_elements:
-            avg_value = sum(stack_elements)/stack.get_stack_size()
+            cur_top = stack_obj.get_top()+1
+            cur_sum = sum(stack_elements)
+            avg_value = cur_sum/cur_top
         else:
             print(bcolors.WARNING + "Warning: It Appears the stack is empty" + bcolors.ENDC)
         return avg_value

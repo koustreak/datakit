@@ -5,7 +5,8 @@
 # Purpose : singly linked list ADT implementation
 
 from datakit.exceptions import bcolors
-from static import linked_list_texts
+from datakit.static import linked_list_texts
+
 
 class singly_list(object):
 

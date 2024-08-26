@@ -1,1 +1,0 @@
-assign_head_node_error = 'Assigning new head Node'
