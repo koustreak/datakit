@@ -10,3 +10,9 @@ class HeadNodeException(Exception):
         super().__init__('Head Node Exception ',msg)
         self.error_code = 'LINKEDLIST'
 
+class NoneNodeException(Exception):
+
+    def __init__(self):
+        super().__init__('Node is None ')
+        self.error_code = 'LINKEDLIST'
+

@@ -13,31 +13,68 @@ class singly_node(object):
         data
         next_node
     ADT - True
+    The singly linked list has one pointer only
     """
 
-    def __init__(self, data,next=None):
-        self.__data = data
-        self.__next = next
+    def __init__(self, data,next_node=None) -> None:
 
-    def setData(self, data):
+        """
+        constructor of singly linked list node
+        :param data: value of the node
+        :param next_node: this is the pointer which will point to the next node
+        """
+        self.__data = data
+        self.__next = next_node
+
+    def setData(self, data) -> None:
+
+        """
+        setter of the data of the node
+        :param data: value of the node
+        :return: None
+        """
         self.__data = data
 
-    def getData(self):
+    def getData(self) -> object:
+
+        """
+        getter of the data of the node
+        :return: node value
+        """
         return self.__data
 
-    def setNext(self, next):
-        self.__next = next
+    def setNext(self, next_node: object) -> None:
 
-    def getNext(self):
+        """
+        setter of the next node pointer .
+        the next pointer actually stores a node object .
+        :param next_node: node object to be saved as next node pointer
+        :return: None
+        """
+        self.__next = next_node
+
+    def getNext(self) -> object:
+
+        """
+        getter of the next node pointer .
+        :return: node object , it can return None also
+        """
         return self.__next
 
-    def __str__(self):
-        return 'Node->'+str(self.__data)
+    def hasNext(self) -> bool:
 
-    def hasNext(self):
+        """
+        check if the node's next pointer pointing to a node object
+        :return: boolean
+        """
         return self.__next is not None
 
-    def hasData(self):
+    def hasData(self) -> bool:
+
+        """
+        check if the node has any data or not
+        :return: boolean
+        """
         return self.__data is not None
 
 
@@ -54,37 +91,89 @@ class doubly_node(object):
         prev_node pointer
     """
 
-    def __init__(self, data, prev=None, next=None):
+    def __init__(self, data, prev=None, next_node=None) -> None:
+
+        """
+        constructor of doubly linked list node
+        :param data: value of the node
+        :param prev: this is the pointer which will point to the previous node
+        :param next_node: this is the pointer which will point to the next node
+        """
         self.__data = data
-        self.__next = next
+        self.__next = next_node
         self.__prev = prev
 
-    def setData(self, data):
+    def setData(self, data) -> None:
+
+        """
+        setter of the data of the node
+        :param data: value of the node
+        :return: None
+        """
         self.__data = data
 
-    def getData(self):
+    def getData(self) -> object:
+
+        """
+        getter of the data of the node
+        :return: data of the node
+        """
         return self.__data
 
-    def setNext(self, next):
-        self.__next = next
+    def setNext(self, next_node: object) -> None:
 
-    def getNext(self):
+        """
+        setter of the next node pointer .
+        :param next_node: node object to be saved as next node pointer
+        :return: None
+        """
+        self.__next = next_node
+
+    def getNext(self) -> object:
+
+        """
+        getter of the next node pointer .
+        :return: object , it can return None also
+        """
         return self.__next
 
-    def setPrev(self, prev):
-        self.__prev = prev
+    def setPrev(self, prev_node: object) -> None:
 
-    def getPrev(self):
+        """
+        setter of the previous node pointer .
+        :param prev_node: it is a node object which points to the previous node
+        :return: None
+        """
+        self.__prev = prev_node
+
+    def getPrev(self) -> object:
+
+        """
+        getter of the previous node pointer . It returns the previous node connected to the current node
+        :return: node object , it can return None also
+        """
         return self.__prev
 
-    def __str__(self):
-        return 'Node->'+str(self.__data)
+    def hasNext(self) -> bool:
 
-    def hasNext(self):
+        """
+        check if the node's next pointer pointing to a node object'
+        :return: boolean
+        """
         return self.__next is not None
 
-    def hasPrev(self):
+    def hasPrev(self) -> bool:
+
+        """
+        check if the node's previous pointer pointing to a node object'
+        :return: boolean
+        """
         return self.__prev is not None
 
-    def hasData(self):
+    def hasData(self) -> object:
+
+        """
+        check if the node has any data or not
+        :return: node value
+        """
         return self.__data is not None

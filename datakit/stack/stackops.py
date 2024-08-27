@@ -4,10 +4,12 @@
 # Version : 1.0 Major
 # Purpose : stack data structure ADT Version
 
-from datakit.stack.stack import Init
-from datakit.exceptions.stack_exceptions import StackInitError
 from typing import List
-from datakit.exceptions.console_print import bcolors
+
+from datakit.exceptions.ConsolePrint import bcolors
+from datakit.exceptions.StackExceptions import StackInitError
+from datakit.stack.stack import Init
+
 
 def __push_pop(stack_obj) -> List:
 

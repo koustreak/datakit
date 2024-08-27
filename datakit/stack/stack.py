@@ -5,10 +5,12 @@
 # Purpose : stack data structure ADT Version
 
 import warnings
-from datakit.exceptions.stack_exceptions import StackOverflow
-from datakit.exceptions.stack_exceptions import StackEmpty
-from datakit.exceptions.stack_exceptions import ValidationTypeError
-from datakit.exceptions.stack_exceptions import StackDownsizeError
+
+from datakit.exceptions.StackExceptions import StackDownsizeError
+from datakit.exceptions.StackExceptions import StackEmpty
+from datakit.exceptions.StackExceptions import StackOverflow
+from datakit.exceptions.StackExceptions import ValidationTypeError
+
 
 class Init(object):
 
@@ -27,7 +29,7 @@ class Init(object):
         self.__stack = [None] * size
         self.__top = -1
 
-        print(f"Stack Object created with ID: {id(self)}")
+        # print(f"Stack Object created : {self}")
 
     @staticmethod
     def __validation(size, safe_mode) -> None:
@@ -167,4 +169,5 @@ class Init(object):
         return self.__top == self.__size-1
 
     def __del__(self):
-        print(f"Stack Object deleted with ID: {id(self)}")
+        # print(f"Stack Object deleted : {self}")
+        pass

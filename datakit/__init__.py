@@ -3,6 +3,6 @@ __author__ = 'koushik dutta'
 __email__ = 'koushikdutta2024@outlook.com'
 __package__ = 'datakit'
 
+from datakit.exceptions import StackExceptions
 from datakit.stack import stack
-from datakit.stack import stack_operations
-from datakit.exceptions import stack_exceptions
+from datakit.stack import stackops
