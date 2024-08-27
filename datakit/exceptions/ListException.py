@@ -4,15 +4,17 @@
 # Version : 1.0 Major
 # Purpose : stack data structure
 
-class HeadNodeException(Exception):
+from datakit.exceptions.BaseException import BaseException
 
-    def __init__(self,msg):
-        super().__init__('Head Node Exception ',msg)
-        self.error_code = 'LINKEDLIST'
+class HeadNodeException(BaseException):
 
-class NoneNodeException(Exception):
+    def __init__(self,msg,*args):
+        super().__init__(code='LINKEDLIST',message='Head Node Exception '+str(msg), \
+                         context=None, *args)
 
-    def __init__(self):
-        super().__init__('Node is None ')
-        self.error_code = 'LINKEDLIST'
+class NoneNodeException(BaseException):
+
+    def __init__(self,msg,*args):
+        super().__init__(code='LINKEDLIST', message='Node Object is None ' + str(msg), \
+                         context=None, *args)
 

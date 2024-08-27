@@ -3,56 +3,66 @@
 # Version : 1.0 Major
 # Purpose : stack data structure
 
-class StackOverflow(Exception):
+from datakit.exceptions.BaseException import BaseException
 
-    def __init__(self) -> None:
-        super().__init__("Stack Overflow, Increase the size of the stack")
+class StackOverflow(BaseException):
 
-class StackEmpty(Exception):
+    def __init__(self, *args) -> None:
+        super().__init__(code='STACK',message="Stack Overflow, Increase the size of the stack", \
+                         context=None, *args)
 
-    def __init__(self) -> None:
-        super().__init__("Stack is empty, Insert element First")
+class StackEmpty(BaseException):
 
-class ValidationTypeError(Exception):
+    def __init__(self, *args) -> None:
+        super().__init__(code='STACK', message="Stack is empty, Insert element First", \
+                         context=None, *args)
 
-    def __init__(self,msg) -> None:
-        super().__init__("Validation Type Error ",msg)
+class ValidationTypeError(BaseException):
 
-class StackPushError(Exception):
+    def __init__(self,msg,*args) -> None:
+        super().__init__(code="STACK", message="Validation Type Error "+str(msg), \
+                        context=None, *args)
 
-    def __init__(self,msg) -> None:
-        super().__init__("Error while inserting data into stack ",msg)
+class StackPushError(BaseException):
 
-class StackPopError(Exception):
+    def __init__(self,msg,*args) -> None:
+        super().__init__(code="STACK",message="Error while inserting data into stack "+str(msg), \
+                        context=None, *args)
 
-    def __init__(self,msg) -> None:
-        super().__init__("Error while inserting data into stack ",msg)
+class StackPopError(BaseException):
 
-class InvalidParameter(Exception):
+    def __init__(self,msg,*args) -> None:
+        super().__init__(code="STACK",message="Error while inserting data into stack "+str(msg), \
+                        context=None, *args)
 
-    def __init__(self,msg) -> None:
-        super().__init__(msg)
+class InvalidParameter(BaseException):
 
-class StackDownsizeError(Exception):
+    def __init__(self,msg,*args) -> None:
+        super().__init__(code="STACK", message=msg, context=None, *args)
 
-    def __init__(self) -> None:
-        super().__init__('Can not downsize the error, as it can result in data leak \n'
-                         'if stack_downsize is forced then please disable safe_mode')
+class StackDownsizeError(BaseException):
 
-class StackAverageError(Exception):
+    def __init__(self,*args) -> None:
+        super().__init__(code="STACK", message='Can not downsize the error, as it can result in data leak \n'
+                         'if stack_downsize is forced then please disable safe_mode', context=None, *args)
 
-    def __init__(self,msg) -> None:
-        super().__init__('To get average all element of the stack should be int or float type ',msg)
+class StackAverageError(BaseException):
 
-class StackMinMaxError(Exception):
+    def __init__(self,msg,*args) -> None:
+        super().__init__(code="STACK", message='To get average all element of the stack \
+                        should be int or float type '+str(msg),context=None, *args)
 
-    def __init__(self,msg) -> None:
-        super().__init__('Min Max can not be applied to a heterogeneous collection object ',msg)
+class StackMinMaxError(BaseException):
 
-class StackInitError(Exception):
+    def __init__(self,msg,*args) -> None:
+        super().__init__(code="STACK", message='Min Max can not be applied to a \
+                        heterogeneous collection object ' + str(msg), context=None, *args)
 
-    def __init__(self) -> None:
-        super().__init__('Can not Initialize a stack from the None input ')
+class StackInitError(BaseException):
+
+    def __init__(self,*args) -> None:
+        super().__init__(code="STACK", message='Can not Initialize a stack from the None input ',
+                         context=None, *args)
 
 
 

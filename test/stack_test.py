@@ -1,7 +1,6 @@
 import unittest
 from datakit import stack
-from datakit import stack_exceptions
-from datakit import stackops
+from datakit import StackExceptions
 
 class TestStack(unittest.TestCase):
 
@@ -30,9 +29,9 @@ class TestStack(unittest.TestCase):
         del stack_obj
 
     def test_validation_method(self):
-        with self.assertRaises(stack_exceptions.ValidationTypeError,msg='Validation Method test case failed'):
+        with self.assertRaises(StackExceptions.ValidationTypeError,msg='Validation Method test case failed'):
             stack.Init(-10)
-        with self.assertRaises(stack_exceptions.ValidationTypeError,msg='Validation Method test case failed'):
+        with self.assertRaises(StackExceptions.ValidationTypeError,msg='Validation Method test case failed'):
             stack.Init('stacksize=100')
 
     def test_stack_overflow(self):
@@ -42,13 +41,13 @@ class TestStack(unittest.TestCase):
         stack_obj.push(300)
         stack_obj.push(400)
         stack_obj.push(500)
-        with self.assertRaises(stack_exceptions.StackOverflow,msg='Stack Overflow test case failed'):
+        with self.assertRaises(StackExceptions.StackOverflow,msg='Stack Overflow test case failed'):
             stack_obj.push(600)
         del stack_obj
 
     def test_stack_emptypop(self):
         stack_obj = stack.Init(10)
-        with self.assertRaises(stack_exceptions.StackEmpty,msg='StackEmpty test case failed'):
+        with self.assertRaises(StackExceptions.StackEmpty,msg='StackEmpty test case failed'):
             stack_obj.pop()
 
     def test_stack_size_increase(self):
@@ -63,10 +62,10 @@ class TestStack(unittest.TestCase):
         stack_obj.push(100)
         stack_obj.push('200')
         with self.assertRaises(Exception,msg='Stack Max Element test case failed'):
-            stackops.get_max(stack_obj)
+            stack_obj.get_max()
         stack_obj.pop()
         stack_obj.push(200)
-        self.assertEquals(stackops.get_max(stack_obj),200,msg='Stack Max Element test case failed')
+        self.assertEquals(stack_obj.get_max(),200,msg='Stack Max Element test case failed')
         del stack_obj
 
     def test_stack_get_min_element(self):
@@ -74,10 +73,10 @@ class TestStack(unittest.TestCase):
         stack_obj.push(100)
         stack_obj.push('200')
         with self.assertRaises(Exception,msg='Stack Min Element test case failed'):
-            stackops.get_min(stack_obj)
+            stack_obj.get_min()
         stack_obj.pop()
         stack_obj.push(200)
-        self.assertEquals(stackops.get_min(stack_obj),100,msg='Stack Min Element test case failed')
+        self.assertEquals(stack_obj.get_min(),100,msg='Stack Min Element test case failed')
         del stack_obj
 
     def test_stack_get_avg_element(self):
@@ -85,10 +84,10 @@ class TestStack(unittest.TestCase):
         stack_obj.push(100)
         stack_obj.push('200')
         with self.assertRaises(Exception,msg='Stack Average Element test case failed'):
-            stackops.get_average(stack_obj)
+            stack_obj.get_average()
         stack_obj.pop()
         stack_obj.push(200)
-        self.assertEquals(stackops.get_average(stack_obj),150,msg='Stack Average Element test case failed')
+        self.assertEquals(stack_obj.get_average(),150,msg='Stack Average Element test case failed')
         del stack_obj
 
     def test_stack_top_value(self):
@@ -101,24 +100,24 @@ class TestStack(unittest.TestCase):
         del stack_obj
 
     def test_stack_from_list(self):
-        with self.assertRaises(stack_exceptions.StackInitError,msg='stack init from list test case failed'):
-            stackops.stack_from_list([])
-        with self.assertRaises(stack_exceptions.StackInitError,msg='stack init from list test case failed'):
-            stackops.stack_from_list(tuple())
-        with self.assertRaises(stack_exceptions.StackInitError,msg='stack init from list test case failed'):
-            stackops.stack_from_list(set())
+        with self.assertRaises(StackExceptions.StackInitError,msg='stack init from list test case failed'):
+            stack.Init.stack_from_list([])
+        with self.assertRaises(StackExceptions.StackInitError,msg='stack init from list test case failed'):
+            stack.Init.stack_from_tuple(tuple())
+        with self.assertRaises(StackExceptions.StackInitError,msg='stack init from list test case failed'):
+            stack.Init.stack_from_set(set())
 
-        stack_obj_list = stackops.stack_from_list([1,2,3,4,'end'])
+        stack_obj_list = stack.Init.stack_from_list([1,2,3,4,'end'])
         self.assertEquals(stack_obj_list.get_stack_size(),5,msg='stack init from list test case failed')
         self.assertEquals(stack_obj_list.get_top(),4,msg='stack init from list test case failed')
         del stack_obj_list
 
-        stack_obj_tuple = stackops.stack_from_list(tuple([1, 2, 3, 4, 'end']))
+        stack_obj_tuple = stack.Init.stack_from_tuple(tuple([1, 2, 3, 4, 'end']))
         self.assertEquals(stack_obj_tuple.get_stack_size(), 5, msg='stack init from list test case failed')
         self.assertEquals(stack_obj_tuple.get_top(), 4, msg='stack init from list test case failed')
         del stack_obj_tuple
 
-        stack_obj_set = stackops.stack_from_list(set([1, 2, 3, 4, 'end']))
+        stack_obj_set = stack.Init.stack_from_set(set([1, 2, 3, 4, 'end']))
         self.assertEquals(stack_obj_set.get_stack_size(), 5, msg='stack init from list test case failed')
         self.assertEquals(stack_obj_set.get_top(), 4, msg='stack init from list test case failed')
         del stack_obj_set

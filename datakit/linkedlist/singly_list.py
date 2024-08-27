@@ -7,7 +7,7 @@
 from datakit.exceptions.ConsolePrint import bcolors
 from datakit.exceptions.ListException import NoneNodeException
 
-class singly_list(object):
+class SinglyList(object):
 
     """
     Implementation of a singly linked list.

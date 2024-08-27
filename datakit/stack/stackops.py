@@ -107,6 +107,7 @@ def print_stack(stack_obj) -> None:
             print('\n'.join([str(i) for i in stack_elements[::-1]]))
         else:
             print(bcolors.WARNING + "Warning: It Appears the stack is empty"+ bcolors.ENDC)
+            print([None]*stack_obj.get_stack_size())
 
     except Exception as ex:
         raise Exception('Error while printing the stack element ', str(ex))

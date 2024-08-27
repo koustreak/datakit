@@ -5,7 +5,7 @@
 # Purpose : stack data structure ADT Version
 
 
-class singly_node(object):
+class SinglyNode(object):
 
     """
     Create Singly Linked List Node
@@ -78,7 +78,7 @@ class singly_node(object):
         return self.__data is not None
 
 
-class doubly_node(object):
+class DoublyNode(object):
 
     """
     Create Singly Linked List Node

@@ -5,12 +5,12 @@
 # Purpose : stack data structure ADT Version
 
 import warnings
-
+from typing import List
 from datakit.exceptions.StackExceptions import StackDownsizeError
-from datakit.exceptions.StackExceptions import StackEmpty
+from datakit.exceptions.StackExceptions import StackEmpty, StackInitError
 from datakit.exceptions.StackExceptions import StackOverflow
 from datakit.exceptions.StackExceptions import ValidationTypeError
-
+from datakit.exceptions.ConsolePrint import bcolors
 
 class Init(object):
 
@@ -118,7 +118,7 @@ class Init(object):
         """
 
         try:
-            self.__stack = self.__stack.extend([None] * self.__size)
+            self.__stack.extend([None] * self.__size)
             self.__size += self.__size
         except Exception as ex:
             raise Exception('Error while increase size of stack ',str(ex))
@@ -171,3 +171,188 @@ class Init(object):
     def __del__(self):
         # print(f"Stack Object deleted : {self}")
         pass
+
+    def __push_pop(self) -> List:
+
+        """
+        In order to access middle element of a stack
+        In order to delete middle element of a stack
+        find min-max-average of a stack
+            we need a temporary stack to pop from first stack and push in temp
+            then pop from temp and then push it into input stack object
+        :param stack: Input stack object
+        :return: None
+        """
+
+        try:
+
+            element_list = []
+            temp_stack = self.__class__.__init__(self,size=self.get_stack_size())
+            cur_top = self.get_top()
+
+            while cur_top >= 0:
+                cur_element = self.pop()
+                element_list.append(cur_element)
+                cur_top -= 1
+                temp_stack.push(cur_element)
+
+            cur_top = temp_stack.get_top()
+
+            while cur_top >= 0:
+                self.push(temp_stack.pop())
+                cur_top -= 1
+
+            del temp_stack
+
+            return element_list
+
+        except Exception as ex:
+            raise Exception('Error while doing push pop step with a temporary stack object ', str(ex))
+
+    def get_max(self) -> object:
+
+        """
+        Find the maximum and minimum value in a stack
+        :param stack: stack object
+        :return: object
+        """
+
+        try:
+
+            stack_elements = self.__push_pop()
+            max_element = None
+            if stack_elements:
+                max_element = max(stack_elements)
+            else:
+                print(bcolors.WARNING + "Warning: It Appears the stack is empty"+ bcolors.ENDC)
+            return max_element
+
+        except Exception as ex:
+            raise Exception('Error while finding max in stack ', str(ex))
+
+    def get_min(self) -> object:
+
+        """
+        Find the maximum and minimum value in a stack
+        :param stack: stack object
+        :return: object
+        """
+
+        try:
+
+            stack_elements = self.__push_pop()
+            min_element = None
+            if stack_elements:
+                min_element = min(stack_elements)
+            else:
+                print(bcolors.WARNING + "Warning: It Appears the stack is empty" + bcolors.ENDC)
+            return min_element
+
+        except Exception as ex:
+            raise Exception('Error while finding min in stack ', str(ex))
+
+    def print_stack(self) -> None:
+
+        """
+        Find the maximum and minimum value in a stack
+        :param stack: stack object
+        :return: object
+        """
+
+        try:
+
+            stack_elements = self.__push_pop()
+            if stack_elements:
+                print('\n'.join([str(i) for i in stack_elements[::-1]]))
+            else:
+                print(bcolors.WARNING + "Warning: It Appears the stack is empty" + bcolors.ENDC)
+                print([None] * self.get_stack_size())
+
+        except Exception as ex:
+            raise Exception('Error while printing the stack element ', str(ex))
+
+    def get_average(self) -> object:
+
+        """
+        Find the average of all elements of stack ,
+        Only applicable for number type element
+        :param stack:
+        :return: object
+        """
+
+        try:
+
+            stack_elements = self.__push_pop()
+            avg_value = None
+            if stack_elements:
+                cur_top = self.get_top() + 1
+                cur_sum = sum(stack_elements)
+                avg_value = cur_sum / cur_top
+            else:
+                print(bcolors.WARNING + "Warning: It Appears the stack is empty" + bcolors.ENDC)
+            return avg_value
+
+        except Exception as ex:
+            raise Exception('Error while finding min in stack ', str(ex))
+
+    @staticmethod
+    def __stack_from_collections(input_collection) -> object:
+
+        """
+        Create stack from input list
+        :param input_collection: it is a list of objects
+        :raises: StackInitError
+        :return: stack object
+        """
+
+        if not input_collection:
+            raise StackInitError()
+
+        stack_object = Init(len(input_collection))
+        for i in input_collection:
+            stack_object.push(i)
+            print('Element ', i, ' inserted successfully in the stack')
+
+        return stack_object
+
+    @staticmethod
+    def stack_from_list(input_list: List) -> object:
+
+        """
+        Create stack from input list
+        :param input_list:
+        :return: stack object
+        """
+        if isinstance(input_list, list):
+            stack_object = Init.__stack_from_collections(input_collection=input_list)
+            return stack_object
+        else:
+            raise TypeError('Input list must be a list type')
+
+    @staticmethod
+    def stack_from_tuple(input_tuple: tuple) -> object:
+
+        """
+        Create stack from input list
+        :param input_list:
+        :return: stack object
+        """
+        if isinstance(input_tuple, tuple):
+            stack_object = Init.__stack_from_collections(input_collection=input_tuple)
+            return stack_object
+        else:
+            raise TypeError('Input list must be a tuple type')
+
+    @staticmethod
+    def stack_from_set(input_set: set) -> object:
+
+        """
+        Create stack from input list
+        :param input_list:
+        :return: stack object
+        """
+        if isinstance(input_set, set):
+            stack_object = Init.__stack_from_collections(input_collection=input_set)
+            return stack_object
+        else:
+            raise TypeError('Input list must be a set type')
