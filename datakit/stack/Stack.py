@@ -12,7 +12,7 @@ from datakit.exceptions.StackExceptions import StackOverflow
 from datakit.exceptions.StackExceptions import ValidationTypeError
 from datakit.exceptions.ConsolePrint import bcolors
 
-class Init(object):
+class InitStack(object):
 
     def __init__(self, size: int, safe_mode: bool = True) -> None:
 
@@ -22,7 +22,7 @@ class Init(object):
         :return: None
         """
 
-        Init.__validation(size, safe_mode)
+        InitStack.__validation(size, safe_mode)
         self.__size = size
         self.__safe_mode = safe_mode
 
@@ -172,6 +172,18 @@ class Init(object):
         # print(f"Stack Object deleted : {self}")
         pass
 
+    # End of STACK ADT Implementation
+    # Stack Ops ,
+    # All builtin methods of the stack class
+
+    def spaces_left(self) -> int:
+
+        """
+        This method will check how many spaces left in the stack
+        :return: How many spaces left in the stack
+        """
+        return self.get_stack_size() - (self.get_top()+1)
+
     def __push_pop(self) -> List:
 
         """
@@ -180,14 +192,12 @@ class Init(object):
         find min-max-average of a stack
             we need a temporary stack to pop from first stack and push in temp
             then pop from temp and then push it into input stack object
-        :param stack: Input stack object
-        :return: None
         """
 
         try:
 
             element_list = []
-            temp_stack = self.__class__.__init__(self,size=self.get_stack_size())
+            temp_stack = self.__class__(size=self.get_stack_size())
             cur_top = self.get_top()
 
             while cur_top >= 0:
@@ -213,8 +223,6 @@ class Init(object):
 
         """
         Find the maximum and minimum value in a stack
-        :param stack: stack object
-        :return: object
         """
 
         try:
@@ -234,8 +242,6 @@ class Init(object):
 
         """
         Find the maximum and minimum value in a stack
-        :param stack: stack object
-        :return: object
         """
 
         try:
@@ -255,19 +261,24 @@ class Init(object):
 
         """
         Find the maximum and minimum value in a stack
-        :param stack: stack object
-        :return: object
         """
 
         try:
 
             stack_elements = self.__push_pop()
-            if stack_elements:
-                print('\n'.join([str(i) for i in stack_elements[::-1]]))
-            else:
+            if not stack_elements:
                 print(bcolors.WARNING + "Warning: It Appears the stack is empty" + bcolors.ENDC)
-                print([None] * self.get_stack_size())
-
+            else:
+                print(bcolors.UNDERLINE+'Printing Stack Elements.... Top Pointer is marked in CYAN'+bcolors.ENDC)
+                max_width = max([len(str(i)) for i in stack_elements])
+                print('-'*(max_width+5))
+                for i in range(len(stack_elements)):
+                    if i == 0:
+                        print(bcolors.OKCYAN +'| '+ str(stack_elements[i]).ljust(max_width+2,' ') +\
+                              '| <-- TOP'+ bcolors.ENDC)
+                    else:
+                        print('| '+str(stack_elements[i]).ljust(max_width+2,' ') +'|')
+                    print('-'*(max_width+5))
         except Exception as ex:
             raise Exception('Error while printing the stack element ', str(ex))
 
@@ -276,7 +287,6 @@ class Init(object):
         """
         Find the average of all elements of stack ,
         Only applicable for number type element
-        :param stack:
         :return: object
         """
 
@@ -308,7 +318,7 @@ class Init(object):
         if not input_collection:
             raise StackInitError()
 
-        stack_object = Init(len(input_collection))
+        stack_object = InitStack(len(input_collection))
         for i in input_collection:
             stack_object.push(i)
             print('Element ', i, ' inserted successfully in the stack')
@@ -320,11 +330,11 @@ class Init(object):
 
         """
         Create stack from input list
-        :param input_list:
-        :return: stack object
+        :param input_list: list object whose data will be inserted into stack
+        :return: stack
         """
         if isinstance(input_list, list):
-            stack_object = Init.__stack_from_collections(input_collection=input_list)
+            stack_object = InitStack.__stack_from_collections(input_collection=input_list)
             return stack_object
         else:
             raise TypeError('Input list must be a list type')
@@ -334,11 +344,11 @@ class Init(object):
 
         """
         Create stack from input list
-        :param input_list:
-        :return: stack object
+        :param input_tuple: tuple object as input which will be used to create stack object
+        :return: stack
         """
         if isinstance(input_tuple, tuple):
-            stack_object = Init.__stack_from_collections(input_collection=input_tuple)
+            stack_object = InitStack.__stack_from_collections(input_collection=input_tuple)
             return stack_object
         else:
             raise TypeError('Input list must be a tuple type')
@@ -348,11 +358,16 @@ class Init(object):
 
         """
         Create stack from input list
-        :param input_list:
-        :return: stack object
+        :param input_set: set object which will be used to create stack object
+        :return: stack
         """
         if isinstance(input_set, set):
-            stack_object = Init.__stack_from_collections(input_collection=input_set)
+            stack_object = InitStack.__stack_from_collections(input_collection=input_set)
             return stack_object
         else:
             raise TypeError('Input list must be a set type')
+
+
+
+
+

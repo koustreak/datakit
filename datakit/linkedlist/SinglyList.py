@@ -3,11 +3,12 @@
 # Date : 26-Aug-2024
 # Version : 0.1.0
 # Purpose : singly linked list ADT implementation
+from sympy.physics.units import current
 
 from datakit.exceptions.ConsolePrint import bcolors
 from datakit.exceptions.ListException import NoneNodeException
 
-class SinglyList(object):
+class SinglyLinkedList(object):
 
     """
     Implementation of a singly linked list.
@@ -61,7 +62,7 @@ class SinglyList(object):
         self.setHead(node)
         self.setSize(self.getSize() + 1)
 
-    def insert_at_end(self, node: object) -> None:
+    def insert_at_end(self, node: object) -> bool:
 
         """
         inserts the node at the end of the singly linked list
@@ -76,8 +77,9 @@ class SinglyList(object):
                 current = current.getNext()
             current.setNext(node)
         self.setSize(self.getSize() + 1)
+        return True
 
-    def insert_at_start(self, node: object) -> None:
+    def insert_at_start(self, node: object) -> bool:
 
         """
         inserts the node at the start of the singly linked list
@@ -93,6 +95,7 @@ class SinglyList(object):
             self.getHead().setNext(node)
             self.setHead(node)
         self.setSize(self.getSize() + 1)
+        return True
 
     def insert_at_pos(self, pos: int, node: object) -> None:
 
@@ -107,26 +110,56 @@ class SinglyList(object):
         if pos == 0:
             self.insert_at_start(node)
         elif pos > self.getSize() - 1:
-            print(bcolors.FAIL + 'Failed to insert code as the position \
-                is greater than current list size' + bcolors.ENDC)
+            print(bcolors.FAIL + 'Failed to insert node as the position \
+                is greater than current list size, to insert node at the end use insert_at_end' + bcolors.ENDC)
+            return False
         else:
             while count < pos:
                 current = current.getNext()
                 count += 1
             node.setNext(current.getNext())
             current.setNext(node)
+        return True
 
-    def update_node_value(self, value) -> None:
+    def update_node_value(self, prev_value, curr_value) -> bool:
 
         """
         updates the value of the given node
-        :param value: value to update
-        :return: None
+        :param prev_value: update the value of the node whose value is prev_value
+        :param curr_value: update the value from prev_value to curr_value
+        :return: bool
+        :raises: NoneNodeException
         """
 
         if self.getHead() is None:
             raise NoneNodeException()
         current = self.getHead()
-        while current.getNext() is not None and current.getValue() != value:
-            current = current.getNext()
+        while current is not None:
+            if current.getData() == prev_value:
+                current.setData(curr_value)
+                return True
+            else:
+                current = current.getNext()
+        return False
 
+    def delete_at_start(self) -> bool:
+
+        """
+        deletes the node at the start of the singly linked list
+        :return: bool
+        :raises: NoneNodeException
+        """
+        if self.getHead() is None:
+            raise NoneNodeException()
+        else:
+            self.setHead(self.getHead().getNext())
+            return True
+
+    def delete_at_end(self) -> bool:
+
+        """
+        deletes the node at the end of the singly linked list
+        :return: bool
+        """
+        if self.getHead() is None:
+            raise NoneNodeException('Can not delete node at the end of the singly linked list')

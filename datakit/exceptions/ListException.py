@@ -18,3 +18,4 @@ class NoneNodeException(BaseException):
         super().__init__(code='LINKEDLIST', message='Node Object is None ' + str(msg), \
                          context=None, *args)
 
+
