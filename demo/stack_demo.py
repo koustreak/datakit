@@ -1,7 +1,7 @@
-from datakit import stack
+from datakit import Stack
 
 #create stack_object
-stack_obj = stack.InitStack(10)
+stack_obj = Stack.InitStack(10)
 
 #print stack size
 print('Stack Size is ',stack_obj.get_stack_size(),'a')

@@ -1,15 +1,36 @@
-# Author : Koushik Dutta
-# Email : koushikdutta2024@outlook.com
-# Date : 20-June-2024
-# Version : 1.0 Major
-# Purpose : stack data structure ADT Version
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Title: Stack
+Description: This is the ADT implementation of the Stack class.
+Author: Koushik Dutta
+Email: koushikdutta2024@outlook.com
+Date: 24-Aug-2024
+Version: 1.0
+License: MIT License
+Usage: stack_demo.py, stack_test.py
+Dependencies: None
+
+Change History:
+    - 24-Aug-2024: Initial Version of the script
+"""
 
 import warnings
 from typing import List
-from datakit.exceptions.StackExceptions import StackDownsizeError
-from datakit.exceptions.StackExceptions import StackEmpty, StackInitError
-from datakit.exceptions.StackExceptions import StackOverflow
-from datakit.exceptions.StackExceptions import ValidationTypeError
+from datakit.exceptions.StackExceptions import (
+    StackEmpty,
+    StackInitError,
+    StackOverflow,
+    StackPushError,
+    StackDownsizeError,
+    ValidationTypeError,
+    StackPopError,
+    StackUpsizeError,
+    TempStackError,
+    StackMinMaxError,
+    StackAverageError
+)
 from datakit.exceptions.ConsolePrint import bcolors
 
 class InitStack(object):
@@ -72,7 +93,7 @@ class InitStack(object):
             self.__top += 1
             self.__stack[self.__top] = element
         except Exception as ex:
-            raise Exception('Error while push into stack ',str(ex))
+            raise StackPushError(str(ex))
 
     def pop(self) -> object:
 
@@ -90,7 +111,7 @@ class InitStack(object):
             self.__top -= 1
             return element_returned
         except Exception as ex:
-            raise Exception('Error while pop from stack ',str(ex))
+            raise StackPopError(str(ex))
 
     def get_stack_size(self) -> int:
 
@@ -121,7 +142,7 @@ class InitStack(object):
             self.__stack.extend([None] * self.__size)
             self.__size += self.__size
         except Exception as ex:
-            raise Exception('Error while increase size of stack ',str(ex))
+            raise StackUpsizeError(str(ex))
 
     def __decrease_size(self) -> None:
 
@@ -132,7 +153,7 @@ class InitStack(object):
         )
         """
         decrease the size of the stack
-        It is 
+        It is depreciated now . It will be made public later 
         :return: None
         :raises: Exception
         """
@@ -217,7 +238,7 @@ class InitStack(object):
             return element_list
 
         except Exception as ex:
-            raise Exception('Error while doing push pop step with a temporary stack object ', str(ex))
+            raise TempStackError(str(ex))
 
     def get_max(self) -> object:
 
@@ -236,7 +257,7 @@ class InitStack(object):
             return max_element
 
         except Exception as ex:
-            raise Exception('Error while finding max in stack ', str(ex))
+            raise StackMinMaxError(str(ex))
 
     def get_min(self) -> object:
 
@@ -255,7 +276,7 @@ class InitStack(object):
             return min_element
 
         except Exception as ex:
-            raise Exception('Error while finding min in stack ', str(ex))
+            raise StackMinMaxError(str(ex))
 
     def print_stack(self) -> None:
 
@@ -303,7 +324,7 @@ class InitStack(object):
             return avg_value
 
         except Exception as ex:
-            raise Exception('Error while finding min in stack ', str(ex))
+            raise StackAverageError(str(ex))
 
     @staticmethod
     def __stack_from_collections(input_collection) -> object:

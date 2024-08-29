@@ -1,8 +1,21 @@
-# Author : Koushik Dutta
-# Email : koushikdutta2024@outlook.com
-# Date : 26-Aug-2024
-# Version : 1.0 Major
-# Purpose : stack data structure ADT Version
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Title: Node
+Description: This is the ADT implementation of a singly linked list node and doubly linked list node.
+Author: Koushik Dutta
+Email: koushikdutta2024@outlook.com
+Date: 26-Aug-2024
+Version: 1.0.1
+License: MIT License
+Usage:
+    - SinglyList.py, DoublyList.py
+Dependencies: None
+
+Change History:
+    - 27-Aug-2024: Initial Version of the script
+"""
 
 
 class SinglyNode(object):

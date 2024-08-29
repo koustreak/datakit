@@ -6,14 +6,14 @@ Title: BaseException
 Description: This is the parent class of all exceptions for datakit
 Author: Koushik Dutta
 Email: koushikdutta2024@outlook.com
-Date: 27-Aug-2024
-Version: 1.0
+Date: 20-Aug-2024
+Version: 1.0.0
 License: MIT License
 Inheritance: ListException.py , StackException.py
 Dependencies: None
 
 Change History:
-    - 27-Aug-2024: Initial Version of the script
+    - 20-Aug-2024: Initial Version of the script
 """
 
 class BaseException(Exception):

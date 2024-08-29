@@ -1,3 +1,22 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Title: ConsolePrint
+Description: This is used to print colored text on console.
+Author: Koushik Dutta
+Email: koushikdutta2024@outlook.com
+Date: 22-Aug-2024
+Version: 1.0.0
+License: MIT License
+Usage:
+    Stack.py, SinglyList.py, Node.py
+Dependencies: None
+
+Change History:
+    - 22-Aug-2024: Initial Version of the script
+"""
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
