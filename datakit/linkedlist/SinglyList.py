@@ -1,8 +1,22 @@
-# Author : Koushik Dutta
-# Email : koushikdutta2024@outlook.com
-# Date : 26-Aug-2024
-# Version : 0.1.0
-# Purpose : singly linked list ADT implementation
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Title: Node
+Description: This is the ADT implementation of a singly linked list
+Author: Koushik Dutta
+Email: koushikdutta2024@outlook.com
+Date: 28-Aug-2024
+Version: 1.0.1
+License: MIT License
+Usage:
+    - SinglyList.py
+Dependencies: None
+
+Change History:
+    - 28-Aug-2024: Initial Version of the script
+"""
+
 
 from datakit.exceptions.ConsolePrint import bcolors
 from datakit.exceptions.ListException import NoneNodeException
@@ -73,8 +87,8 @@ class SinglyLinkedList(object):
         :return: None
         """
         if self.getHead() is None:
-            print(bcolors.WARNING+'As Head is None , the input node will be set as head node '+bcolors.ENDC)
-            self.setHead(node)
+            print(bcolors.WARNING+'As Head is None , please use insert_at_start '+bcolors.ENDC)
+            return False
         else:
             current = self.getHead()
             while current.getNext() is not None:
@@ -96,7 +110,7 @@ class SinglyLinkedList(object):
         else:
             # set the head next to the node
             # point the head pointer to the node object
-            self.getHead().setNext(node)
+            node.setNext(self.getHead())
             self.setHead(node)
         self.setSize(self.getSize() + 1)
         return True
@@ -127,7 +141,7 @@ class SinglyLinkedList(object):
             self.setSize(self.getSize() + 1)
             return True
 
-    def update_node_value(self, prev_value, curr_value) -> bool:
+    def update_value(self, prev_value, curr_value) -> bool:
 
         """
         updates the value of the given node where the node data matches prev_value
@@ -145,10 +159,36 @@ class SinglyLinkedList(object):
             if current.getData() == prev_value:
                 current.setData(curr_value)
                 update_count += 1
-            else:
-                current = current.getNext()
+            current = current.getNext()
         if update_count:
             return True
+        return False
+
+    def update_value_at_pos(self, position: int, curr_value) -> bool:
+
+        """
+        updates the value of the given node where the node is at a given position
+        :param position: position of the node which is to be updated
+        :param curr_value: update the value to curr_value
+        :return: bool
+        :raises: NoneNodeException
+        """
+
+        if self.getHead() is None:
+            raise NoneNodeException('Head Node is None , failed to update')
+
+        if position > self.getSize() - 1 or position < 0 or (not isinstance(position, int)):
+            raise InvalidParameter('Failed to update node as the position ' + str(position) + ' \
+                        because it is out of range or not an integer ')
+
+        current = self.getHead()
+        pos_count = 0
+        while current is not None:
+            if position == pos_count:
+                current.setData(curr_value)
+                return True
+            current = current.getNext()
+            pos_count += 1
         return False
 
     def delete_at_start(self) -> bool:
@@ -203,4 +243,3 @@ class SinglyLinkedList(object):
                 else:
                     current.setNext(None)
                 self.setSize(self.getSize() - 1)
-                return True

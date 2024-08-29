@@ -14,7 +14,7 @@ Usage:
 Dependencies: None
 
 Change History:
-    - 27-Aug-2024: Initial Version of the script
+    - 26-Aug-2024: Initial Version of the script
 """
 
 
