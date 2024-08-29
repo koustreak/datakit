@@ -3,10 +3,11 @@
 # Date : 26-Aug-2024
 # Version : 0.1.0
 # Purpose : singly linked list ADT implementation
-from sympy.physics.units import current
 
 from datakit.exceptions.ConsolePrint import bcolors
 from datakit.exceptions.ListException import NoneNodeException
+from datakit.exceptions.ListException import InvalidParameter
+from datakit.linkedlist.Node import SinglyNode
 
 class SinglyLinkedList(object):
 
@@ -25,7 +26,7 @@ class SinglyLinkedList(object):
         self.__head = None
         self.__size = 0
 
-    def getHead(self) -> object:
+    def getHead(self) -> SinglyNode:
 
         """
         returns the head of the singly linked list
@@ -50,7 +51,7 @@ class SinglyLinkedList(object):
         """
         self.__size = size
 
-    def setHead(self, node: object) -> None:
+    def setHead(self, node: SinglyNode) -> bool:
 
         """
         sets the head of the singly linked list
@@ -59,10 +60,12 @@ class SinglyLinkedList(object):
         """
         if self.getHead() is not None:
             print(bcolors.WARNING + 'Head Node is not None' + bcolors.ENDC)
-        self.setHead(node)
-        self.setSize(self.getSize() + 1)
+        else:
+            self.setSize(self.getSize() + 1)
+        self.__head = node
+        return True
 
-    def insert_at_end(self, node: object) -> bool:
+    def insert_at_end(self, node: SinglyNode) -> bool:
 
         """
         inserts the node at the end of the singly linked list
@@ -70,6 +73,7 @@ class SinglyLinkedList(object):
         :return: None
         """
         if self.getHead() is None:
+            print(bcolors.WARNING+'As Head is None , the input node will be set as head node '+bcolors.ENDC)
             self.setHead(node)
         else:
             current = self.getHead()
@@ -79,7 +83,7 @@ class SinglyLinkedList(object):
         self.setSize(self.getSize() + 1)
         return True
 
-    def insert_at_start(self, node: object) -> bool:
+    def insert_at_start(self, node: SinglyNode) -> bool:
 
         """
         inserts the node at the start of the singly linked list
@@ -97,7 +101,7 @@ class SinglyLinkedList(object):
         self.setSize(self.getSize() + 1)
         return True
 
-    def insert_at_pos(self, pos: int, node: object) -> None:
+    def insert_at_middle(self, pos: int, node: SinglyNode) -> bool:
 
         """
         inserts the node at the given position in the singly linked list
@@ -105,26 +109,28 @@ class SinglyLinkedList(object):
         :param node: node object
         :return: None
         """
-        current = self.getHead()
-        count = 0
-        if pos == 0:
-            self.insert_at_start(node)
-        elif pos > self.getSize() - 1:
-            print(bcolors.FAIL + 'Failed to insert node as the position \
-                is greater than current list size, to insert node at the end use insert_at_end' + bcolors.ENDC)
+        if pos == 0 or pos == self.getSize() - 1:
+            print(bcolors.WARNING + 'To insert at start dne end of the linkedlist , '
+                                    'please use insert_at_start and insert_at_end ' + bcolors.ENDC)
             return False
         else:
+            if pos > self.getSize() - 1 or pos < 0 or (not isinstance(pos,int)):
+                raise InvalidParameter('Failed to insert node as the position ' + str(pos) + ' \
+                            because it is out of range or not an integer ')
+            current = self.getHead()
+            count = 0
             while count < pos:
                 current = current.getNext()
                 count += 1
-            node.setNext(current.getNext())
-            current.setNext(node)
-        return True
+                node.setNext(current.getNext())
+                current.setNext(node)
+            self.setSize(self.getSize() + 1)
+            return True
 
     def update_node_value(self, prev_value, curr_value) -> bool:
 
         """
-        updates the value of the given node
+        updates the value of the given node where the node data matches prev_value
         :param prev_value: update the value of the node whose value is prev_value
         :param curr_value: update the value from prev_value to curr_value
         :return: bool
@@ -132,14 +138,17 @@ class SinglyLinkedList(object):
         """
 
         if self.getHead() is None:
-            raise NoneNodeException()
+            raise NoneNodeException('Head Node is None , failed to update')
         current = self.getHead()
+        update_count = 0
         while current is not None:
             if current.getData() == prev_value:
                 current.setData(curr_value)
-                return True
+                update_count += 1
             else:
                 current = current.getNext()
+        if update_count:
+            return True
         return False
 
     def delete_at_start(self) -> bool:
@@ -150,9 +159,10 @@ class SinglyLinkedList(object):
         :raises: NoneNodeException
         """
         if self.getHead() is None:
-            raise NoneNodeException()
+            raise NoneNodeException('Can not delete node at the end of the singly linked list')
         else:
             self.setHead(self.getHead().getNext())
+            self.setSize(self.getSize()-1)
             return True
 
     def delete_at_end(self) -> bool:
@@ -163,3 +173,34 @@ class SinglyLinkedList(object):
         """
         if self.getHead() is None:
             raise NoneNodeException('Can not delete node at the end of the singly linked list')
+
+        current = self.getHead()
+        while current.getNext() is not None:
+            current = current.getNext()
+        current.setNext(None)
+        self.setSize(self.getSize() - 1)
+        return True
+
+    def delete_at_pos(self, pos: int) -> bool:
+
+        if self.getHead() is None:
+            raise NoneNodeException('Can not delete node at the end of the singly linked list')
+
+        current = self.getHead()
+        count = 0
+        if pos == 0:
+            self.delete_at_start()
+        else:
+            if pos > self.getSize():
+                raise InvalidParameter('Failed to insert node as the position \
+                                is greater than current list size, to insert node at the end use insert_at_end')
+            else:
+                while count < pos:
+                    current = current.getNext()
+                    count += 1
+                if current.getNext().getNext() is not None:
+                    current.setNext(current.getNext().getNext())
+                else:
+                    current.setNext(None)
+                self.setSize(self.getSize() - 1)
+                return True

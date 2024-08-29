@@ -53,7 +53,7 @@ class SinglyNode(object):
         """
         self.__next = next_node
 
-    def getNext(self) -> object:
+    def getNext(self) -> 'SinglyNode':
 
         """
         getter of the next node pointer .
