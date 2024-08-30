@@ -22,7 +22,7 @@ from datakit.exceptions.BaseException import BaseException
 class HeadNodeException(BaseException):
 
     def __init__(self,msg='',*args):
-        super().__init__(code='LINKEDLIST',message='Head Node Exception '+str(msg),
+        super().__init__(code='LINKEDLIST',message='Head Node is None '+str(msg),
                          context=None, *args)
 
 class NoneNodeException(BaseException):
@@ -33,7 +33,7 @@ class NoneNodeException(BaseException):
 
 class InvalidParameter(BaseException):
 
-    def __init__(self,msg,*args):
-        super().__init__(code='LINKEDLIST', message='Parameter value is None ' + str(msg),
+    def __init__(self, msg, parameter, *args):
+        super().__init__(code='LINKEDLIST', message='Parameter ' + str(parameter) + ' has None ' + str(msg),
                          context=None, *args)
 

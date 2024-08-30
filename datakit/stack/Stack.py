@@ -37,12 +37,6 @@ class InitStack(object):
 
     def __init__(self, size: int, safe_mode: bool = True) -> None:
 
-        """
-        :param size: size of the stack
-        :param safe_mode: if safe_mode is on then stack size reduction is done if there is no data-loss
-        :return: None
-        """
-
         InitStack.__validation(size, safe_mode)
         self.__size = size
         self.__safe_mode = safe_mode
@@ -54,13 +48,6 @@ class InitStack(object):
 
     @staticmethod
     def __validation(size, safe_mode) -> None:
-
-        """
-        This process checks if the size of the stack is of valid datatype.
-        Size variable should be a
-        :return: None
-        :raise: Exception
-        """
 
         if isinstance(size, int):
             if size < 0:
@@ -77,13 +64,6 @@ class InitStack(object):
 
     def push(self, element=None) -> None:
 
-        """
-        inserting into stack
-        :param element: element to be inserted
-        :return: boolean
-        :raise: Exception
-        """
-
         assert element is not None, 'Please insert a not None element'
 
         if self.__top == self.__size - 1:
@@ -96,11 +76,6 @@ class InitStack(object):
             raise StackPushError(str(ex))
 
     def pop(self) -> object:
-
-        """
-        :return: an element from stack
-        :raise: stack_underflow exceptions
-        """
 
         if self.__top == -1:
             raise StackEmpty()
@@ -115,28 +90,13 @@ class InitStack(object):
 
     def get_stack_size(self) -> int:
 
-        """
-        Returns the size of the stack
-        :return: Integer value of the size of the stack
-        """
-
         return self.__size
 
     def get_top(self) -> int:
 
-        """
-        Returns the top of the stack
-        :return: Integer value of the top of the stack
-        """
-
         return self.__top
 
     def increase_size(self) -> None:
-
-        """
-        increase the size of the stack
-        :return: boolean
-        """
 
         try:
             self.__stack.extend([None] * self.__size)
@@ -151,12 +111,6 @@ class InitStack(object):
             DeprecationWarning,
             stacklevel=2
         )
-        """
-        decrease the size of the stack
-        It is depreciated now . It will be made public later 
-        :return: None
-        :raises: Exception
-        """
 
         current_stack_size = self.get_stack_size()
         current_top_pos = self.get_top()
@@ -173,19 +127,9 @@ class InitStack(object):
 
     def is_empty(self) -> bool:
 
-        """
-        Check if the stack is empty
-        :return: boolean
-        """
-
         return self.__top == -1
 
     def is_full(self) -> bool:
-
-        """
-        Check if the stack is empty
-        :return: boolean
-        """
 
         return self.__top == self.__size-1
 
@@ -199,21 +143,9 @@ class InitStack(object):
 
     def spaces_left(self) -> int:
 
-        """
-        This method will check how many spaces left in the stack
-        :return: How many spaces left in the stack
-        """
         return self.get_stack_size() - (self.get_top()+1)
 
     def __push_pop(self) -> List:
-
-        """
-        In order to access middle element of a stack
-        In order to delete middle element of a stack
-        find min-max-average of a stack
-            we need a temporary stack to pop from first stack and push in temp
-            then pop from temp and then push it into input stack object
-        """
 
         try:
 
@@ -242,10 +174,6 @@ class InitStack(object):
 
     def get_max(self) -> object:
 
-        """
-        Find the maximum and minimum value in a stack
-        """
-
         try:
 
             stack_elements = self.__push_pop()
@@ -261,10 +189,6 @@ class InitStack(object):
 
     def get_min(self) -> object:
 
-        """
-        Find the maximum and minimum value in a stack
-        """
-
         try:
 
             stack_elements = self.__push_pop()
@@ -279,10 +203,6 @@ class InitStack(object):
             raise StackMinMaxError(str(ex))
 
     def print_stack(self) -> None:
-
-        """
-        Find the maximum and minimum value in a stack
-        """
 
         try:
 
@@ -305,12 +225,6 @@ class InitStack(object):
 
     def get_average(self) -> object:
 
-        """
-        Find the average of all elements of stack ,
-        Only applicable for number type element
-        :return: object
-        """
-
         try:
 
             stack_elements = self.__push_pop()
@@ -326,15 +240,24 @@ class InitStack(object):
         except Exception as ex:
             raise StackAverageError(str(ex))
 
+
+    def reverse(self,in_place=False) -> object:
+
+        if self.is_empty():
+            raise StackEmpty()
+
+        stack_elements = self.__push_pop()
+        if not in_place:
+            temp_stack = self.__class__(size=self.get_stack_size())
+            for i in stack_elements[::-1]:
+                temp_stack.push(i)
+            return temp_stack
+        else:
+            for i in stack_elements:
+                self.push(i)
+
     @staticmethod
     def __stack_from_collections(input_collection) -> object:
-
-        """
-        Create stack from input list
-        :param input_collection: it is a list of objects
-        :raises: StackInitError
-        :return: stack object
-        """
 
         if not input_collection:
             raise StackInitError()
@@ -349,11 +272,6 @@ class InitStack(object):
     @staticmethod
     def stack_from_list(input_list: List) -> object:
 
-        """
-        Create stack from input list
-        :param input_list: list object whose data will be inserted into stack
-        :return: stack
-        """
         if isinstance(input_list, list):
             stack_object = InitStack.__stack_from_collections(input_collection=input_list)
             return stack_object
@@ -363,11 +281,6 @@ class InitStack(object):
     @staticmethod
     def stack_from_tuple(input_tuple: tuple) -> object:
 
-        """
-        Create stack from input list
-        :param input_tuple: tuple object as input which will be used to create stack object
-        :return: stack
-        """
         if isinstance(input_tuple, tuple):
             stack_object = InitStack.__stack_from_collections(input_collection=input_tuple)
             return stack_object
@@ -377,11 +290,6 @@ class InitStack(object):
     @staticmethod
     def stack_from_set(input_set: set) -> object:
 
-        """
-        Create stack from input list
-        :param input_set: set object which will be used to create stack object
-        :return: stack
-        """
         if isinstance(input_set, set):
             stack_object = InitStack.__stack_from_collections(input_collection=input_set)
             return stack_object

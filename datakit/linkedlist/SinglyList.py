@@ -17,61 +17,33 @@ Change History:
     - 28-Aug-2024: Initial Version of the script
 """
 
-
+from typing import *
 from datakit.exceptions.ConsolePrint import bcolors
-from datakit.exceptions.ListException import NoneNodeException
+from datakit.exceptions.ListException import NoneNodeException, HeadNodeException
 from datakit.exceptions.ListException import InvalidParameter
 from datakit.linkedlist.Node import SinglyNode
 
 class SinglyLinkedList(object):
 
-    """
-    Implementation of a singly linked list.
-    A singly linked list is a linked list which has one pointer , which points to next node
-    """
     def __init__(self) -> None:
 
-        """
-        Constructor of singly linked list class
-        :object variable: __head -> head of singly linked list
-        :object variable: __size -> size of singly linked list
-        :return: None
-        """
         self.__head = None
         self.__size = 0
 
     def getHead(self) -> SinglyNode:
 
-        """
-        returns the head of the singly linked list
-        :return: Object
-        """
         return self.__head
 
     def getSize(self) -> int:
 
-        """
-        returns the size of the singly linked list
-        :return: integer
-        """
         return self.__size
 
     def setSize(self, size: int) -> None:
 
-        """
-        sets the size of the singly linked list
-        :param size: this method is to set the size of the singly linked list
-        :return: None
-        """
         self.__size = size
 
     def setHead(self, node: SinglyNode) -> bool:
 
-        """
-        sets the head of the singly linked list
-        :param node: node object to set the head
-        :return: None
-        """
         if self.getHead() is not None:
             print(bcolors.WARNING + 'Head Node is not None' + bcolors.ENDC)
         else:
@@ -81,11 +53,6 @@ class SinglyLinkedList(object):
 
     def insert_at_end(self, node: SinglyNode) -> bool:
 
-        """
-        inserts the node at the end of the singly linked list
-        :param node: node object
-        :return: None
-        """
         if self.getHead() is None:
             print(bcolors.WARNING+'As Head is None , please use insert_at_start '+bcolors.ENDC)
             return False
@@ -94,17 +61,12 @@ class SinglyLinkedList(object):
             while current.getNext() is not None:
                 current = current.getNext()
             current.setNext(node)
-        self.setSize(self.getSize() + 1)
-        return True
+            self.setSize(self.getSize() + 1)
+            return True
 
     def insert_at_start(self, node: SinglyNode) -> bool:
 
-        """
-        inserts the node at the start of the singly linked list
-        :param node: node object
-        :return: None
-        """
-        # if head is none then its the matter of setHead
+        # if head is none then setHead() will be invoked
         if self.getHead() is None:
             self.setHead(node)
         else:
@@ -117,12 +79,6 @@ class SinglyLinkedList(object):
 
     def insert_at_middle(self, pos: int, node: SinglyNode) -> bool:
 
-        """
-        inserts the node at the given position in the singly linked list
-        :param pos: position where the node will be inserted
-        :param node: node object
-        :return: None
-        """
         if pos == 0 or pos == self.getSize() - 1:
             print(bcolors.WARNING + 'To insert at start dne end of the linkedlist , '
                                     'please use insert_at_start and insert_at_end ' + bcolors.ENDC)
@@ -143,14 +99,6 @@ class SinglyLinkedList(object):
 
     def update_value(self, prev_value, curr_value) -> bool:
 
-        """
-        updates the value of the given node where the node data matches prev_value
-        :param prev_value: update the value of the node whose value is prev_value
-        :param curr_value: update the value from prev_value to curr_value
-        :return: bool
-        :raises: NoneNodeException
-        """
-
         if self.getHead() is None:
             raise NoneNodeException('Head Node is None , failed to update')
         current = self.getHead()
@@ -165,14 +113,6 @@ class SinglyLinkedList(object):
         return False
 
     def update_value_at_pos(self, position: int, curr_value) -> bool:
-
-        """
-        updates the value of the given node where the node is at a given position
-        :param position: position of the node which is to be updated
-        :param curr_value: update the value to curr_value
-        :return: bool
-        :raises: NoneNodeException
-        """
 
         if self.getHead() is None:
             raise NoneNodeException('Head Node is None , failed to update')
@@ -193,11 +133,6 @@ class SinglyLinkedList(object):
 
     def delete_at_start(self) -> bool:
 
-        """
-        deletes the node at the start of the singly linked list
-        :return: bool
-        :raises: NoneNodeException
-        """
         if self.getHead() is None:
             raise NoneNodeException('Can not delete node at the end of the singly linked list')
         else:
@@ -207,39 +142,149 @@ class SinglyLinkedList(object):
 
     def delete_at_end(self) -> bool:
 
-        """
-        deletes the node at the end of the singly linked list
-        :return: bool
-        """
         if self.getHead() is None:
             raise NoneNodeException('Can not delete node at the end of the singly linked list')
 
-        current = self.getHead()
-        while current.getNext() is not None:
-            current = current.getNext()
-        current.setNext(None)
-        self.setSize(self.getSize() - 1)
-        return True
+        if self.getSize() == 1:
+            self.delete_at_start()
+        else:
+            current = self.getHead()
+            prev = self.getHead()
+            while current.getNext() is not None:
+                prev = current
+                current = current.getNext()
+            prev.setNext(None)
+            self.setSize(self.getSize() - 1)
+            return True
 
     def delete_at_pos(self, pos: int) -> bool:
 
         if self.getHead() is None:
             raise NoneNodeException('Can not delete node at the end of the singly linked list')
 
+        if pos > self.getSize() - 1 or pos < 0 or (not isinstance(pos, int)):
+            raise InvalidParameter(msg='Invalid value for parameter pos, either out of range or not an integer '
+                                   , parameter='position')
+
         current = self.getHead()
+        prev = self.getHead()
         count = 0
         if pos == 0:
             self.delete_at_start()
+        elif pos == self.getSize() - 1:
+            self.delete_at_end()
         else:
-            if pos > self.getSize():
-                raise InvalidParameter('Failed to insert node as the position \
-                                is greater than current list size, to insert node at the end use insert_at_end')
+            while count != pos:
+                prev = current
+                current = current.getNext()
+                count += 1
+            prev.setNext(current.getNext())
+            self.setSize(self.getSize() - 1)
+        return True
+
+    def print_list(self) -> None:
+
+        if self.getHead() is None:
+            raise HeadNodeException('Linked List is empty')
+
+        current = self.getHead()
+        while current is not None:
+            if current.getNext() is not None:
+                print(current.getData(),end='->')
             else:
-                while count < pos:
-                    current = current.getNext()
-                    count += 1
-                if current.getNext().getNext() is not None:
-                    current.setNext(current.getNext().getNext())
-                else:
-                    current.setNext(None)
-                self.setSize(self.getSize() - 1)
+                print(current.getData(),end='')
+            current = current.getNext()
+
+    def reverse(self,in_place=False) -> 'SinglyLinkedList':
+
+        if self.getHead() is None:
+            raise HeadNodeException('Can not reverse the singly linked list')
+
+        if in_place:
+            new_list = self.__class__()
+            current = self.getHead()
+            while current is not None:
+                new_list.setHead(current)
+                current = current.getNext()
+            return new_list
+        else:
+            current = self.getHead()
+            prev = None
+            while current is not None:
+                next_node = current.getNext()
+                current.setNext(prev)
+                prev = current
+                current = next_node
+
+    def __get_stat(self,choice) -> object:
+
+        if self.getHead() is None:
+            raise HeadNodeException('Can not generate average, min, max')
+
+        current = self.getHead()
+        elements = []
+
+        while current is not None:
+            elements.append(current.getData())
+            current = current.getNext()
+        if choice == 'min':
+            return min(elements)
+        if choice == 'max':
+            return max(elements)
+        if choice == 'avg':
+            return sum(elements) / len(elements)
+
+    def getmax(self) -> object:
+
+        return self.__get_stat('max')
+
+    def getmin(self) -> object:
+
+        return self.__get_stat('min')
+
+    def getavg(self) -> object:
+
+        return self.__get_stat('avg')
+
+    @staticmethod
+    def __create_linkedlist_from_collection(collection,_type:str) -> 'SinglyLinkedList':
+
+        if not collection:
+            raise ValueError('Collection '+str(_type)+' is empty ', collection)
+
+        linkedlist = SinglyLinkedList()
+        for i in collection:
+            node = SinglyNode(i)
+            if linkedlist.getHead() is None:
+                linkedlist.setHead(node)
+            else:
+                linkedlist.insert_at_end(node)
+        return linkedlist
+
+    @staticmethod
+    def from_list(input_list: List) -> 'SinglyLinkedList':
+
+        if not isinstance(input_list, list):
+            raise TypeError('Input list must be of type list')
+        return SinglyLinkedList.__create_linkedlist_from_collection(input_list,'list')
+
+    @staticmethod
+    def from_tuple(input_tuple: Tuple) -> 'SinglyLinkedList':
+
+        if not isinstance(input_tuple, tuple):
+            raise TypeError('Input list must be of type list')
+        return SinglyLinkedList.__create_linkedlist_from_collection(input_tuple,'tuple')
+
+    @staticmethod
+    def from_set(input_set: Set) -> 'SinglyLinkedList':
+
+        if not isinstance(input_set, set):
+            raise TypeError('Input list must be of type set')
+        return SinglyLinkedList.__create_linkedlist_from_collection(input_set,'set')
+
+
+
+
+
+
+
