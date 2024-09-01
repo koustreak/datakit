@@ -29,9 +29,9 @@ class TestStack(unittest.TestCase):
         del stack_obj
 
     def test_validation_method(self):
-        with self.assertRaises(StackExceptions.ValidationTypeError,msg='Validation Method test case failed'):
+        with self.assertRaises(StackExceptions.StackInitError,msg='Validation Method test case failed'):
             Stack.InitStack(-10)
-        with self.assertRaises(StackExceptions.ValidationTypeError,msg='Validation Method test case failed'):
+        with self.assertRaises(StackExceptions.StackInitError,msg='Validation Method test case failed'):
             Stack.InitStack('stacksize=100')
 
     def test_stack_overflow(self):
@@ -100,11 +100,11 @@ class TestStack(unittest.TestCase):
         del stack_obj
 
     def test_stack_from_list(self):
-        with self.assertRaises(StackExceptions.StackInitError, msg='stack init from list test case failed'):
+        with self.assertRaises(ValueError, msg='stack init from list test case failed'):
             Stack.InitStack.stack_from_list([])
-        with self.assertRaises(StackExceptions.StackInitError, msg='stack init from list test case failed'):
+        with self.assertRaises(ValueError, msg='stack init from list test case failed'):
             Stack.InitStack.stack_from_tuple(tuple())
-        with self.assertRaises(StackExceptions.StackInitError, msg='stack init from list test case failed'):
+        with self.assertRaises(ValueError, msg='stack init from list test case failed'):
             Stack.InitStack.stack_from_set(set())
 
         stack_obj_list = Stack.InitStack.stack_from_list([1, 2, 3, 4, 'end'])

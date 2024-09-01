@@ -16,24 +16,22 @@ Change History:
     - 23-Aug-2024: Initial Version of the script
 """
 
-
 from datakit.exceptions.BaseException import BaseException
 
 class HeadNodeException(BaseException):
 
-    def __init__(self,msg='',*args):
-        super().__init__(code='LINKEDLIST',message='Head Node is None '+str(msg),
-                         context=None, *args)
+    def __init__(self,method,*args):
+        super().__init__(code='LINKEDLIST',message='Head Node is None ',
+                         method=method, *args)
 
 class NoneNodeException(BaseException):
 
-    def __init__(self,msg,*args):
+    def __init__(self,msg,method,*args):
         super().__init__(code='LINKEDLIST', message='Node Object is None ' + str(msg),
-                         context=None, *args)
+                         method=method, *args)
 
 class InvalidParameter(BaseException):
 
-    def __init__(self, msg, parameter, *args):
-        super().__init__(code='LINKEDLIST', message='Parameter ' + str(parameter) + ' has None ' + str(msg),
-                         context=None, *args)
-
+    def __init__(self,reason,param_name,param_value,method,*args):
+        message = f' Parameter - {param_name} has invalid Value {param_value}, reason {reason}'
+        super().__init__(code='LINKEDLIST', message=message,method=method, *args)

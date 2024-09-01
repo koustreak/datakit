@@ -61,18 +61,18 @@ class InitStack(object):
         assert element is not None, 'Please insert a not None element'
 
         if self.__top == self.__size - 1:
-            raise StackOverflow()
+            raise StackOverflow(method='push')
 
         try:
             self.__top += 1
             self.__stack[self.__top] = element
         except Exception as ex:
-            raise StackPushError(str(ex))
+            raise StackPushError(msg=str(ex),method='push')
 
     def pop(self) -> object:
 
         if self.__top == -1:
-            raise StackEmpty()
+            raise StackEmpty(method='pop')
 
         try:
             element_returned = self.__stack[self.__top]
@@ -80,7 +80,7 @@ class InitStack(object):
             self.__top -= 1
             return element_returned
         except Exception as ex:
-            raise StackPopError(str(ex))
+            raise StackPopError(msg=str(ex),method='pop')
 
     def get_stack_size(self) -> int:
 
@@ -96,7 +96,7 @@ class InitStack(object):
             self.__stack.extend([None] * self.__size)
             self.__size += self.__size
         except Exception as ex:
-            raise StackUpsizeError(str(ex))
+            raise StackResizeError(msg=str(ex),method='increase_size',resize_option='+')
 
     def __decrease_size(self) -> None:
 
@@ -110,14 +110,14 @@ class InitStack(object):
         current_top_pos = self.get_top()
 
         if current_stack_size // 2 <= current_top_pos and self.__safe_mode:
-            raise StackDownsizeError()
+            raise StackResizeError(msg=' ',method='__decrease_size',resize_option='-')
 
         if current_stack_size // 2 > current_top_pos:
             try:
                 self.__stack = self.__stack[:self.__size//2]
                 self.__size -= self.__size//2
             except Exception as ex:
-                raise Exception('Error while decrease size of stack ',str(ex))
+                raise StackResizeError(msg=str(ex),method='__decrease_size',resize_option='-')
 
     def is_empty(self) -> bool:
 
@@ -141,30 +141,25 @@ class InitStack(object):
 
     def __push_pop(self) -> List:
 
-        try:
+        element_list = []
+        temp_stack = self.__class__(size=self.get_stack_size())
+        cur_top = self.get_top()
 
-            element_list = []
-            temp_stack = self.__class__(size=self.get_stack_size())
-            cur_top = self.get_top()
+        while cur_top >= 0:
+            cur_element = self.pop()
+            element_list.append(cur_element)
+            cur_top -= 1
+            temp_stack.push(cur_element)
 
-            while cur_top >= 0:
-                cur_element = self.pop()
-                element_list.append(cur_element)
-                cur_top -= 1
-                temp_stack.push(cur_element)
+        cur_top = temp_stack.get_top()
 
-            cur_top = temp_stack.get_top()
+        while cur_top >= 0:
+            self.push(temp_stack.pop())
+            cur_top -= 1
 
-            while cur_top >= 0:
-                self.push(temp_stack.pop())
-                cur_top -= 1
+        del temp_stack
 
-            del temp_stack
-
-            return element_list
-
-        except Exception as ex:
-            raise TempStackError(str(ex))
+        return element_list
 
     def get_max(self) -> object:
 
@@ -179,7 +174,7 @@ class InitStack(object):
             return max_element
 
         except Exception as ex:
-            raise StackMinMaxError(str(ex))
+            raise StackStatisticsError(msg=str(ex),method='get_max',option='max')
 
     def get_min(self) -> object:
 
@@ -194,7 +189,7 @@ class InitStack(object):
             return min_element
 
         except Exception as ex:
-            raise StackMinMaxError(str(ex))
+            raise StackStatisticsError(msg=str(ex),method='get_min',option='min')
 
     def print_stack(self) -> None:
 
@@ -232,13 +227,12 @@ class InitStack(object):
             return avg_value
 
         except Exception as ex:
-            raise StackAverageError(str(ex))
-
+            raise StackStatisticsError(msg=str(ex),method='get_average',option='avg')
 
     def reverse(self,in_place=False) -> object:
 
         if self.is_empty():
-            raise StackEmpty()
+            raise StackEmpty(method='pop')
 
         stack_elements = self.__push_pop()
         if not in_place:
@@ -251,44 +245,45 @@ class InitStack(object):
                 self.push(i)
 
     @staticmethod
-    def __stack_from_collections(input_collection) -> object:
+    def __stack_from_collections(input_collection,input_type) -> object:
 
         if not input_collection:
-            raise StackInitError()
+            raise ValueError('input_collection cannot be empty , collection_type='+str(input_type))
+        else:
+            stack_object = InitStack(len(input_collection))
+            for i in input_collection:
+                stack_object.push(i)
 
-        stack_object = InitStack(len(input_collection))
-        for i in input_collection:
-            stack_object.push(i)
-            print('Element ', i, ' inserted successfully in the stack')
+            print('Elements from the collection, inserted successfully in the stack')
 
-        return stack_object
+            return stack_object
 
     @staticmethod
     def stack_from_list(input_list: List) -> object:
 
         if isinstance(input_list, list):
-            stack_object = InitStack.__stack_from_collections(input_collection=input_list)
+            stack_object = InitStack.__stack_from_collections(input_collection=input_list,input_type='list')
             return stack_object
         else:
-            raise TypeError('Input list must be a list type')
+            raise TypeError('Input collection must be a list type')
 
     @staticmethod
     def stack_from_tuple(input_tuple: tuple) -> object:
 
         if isinstance(input_tuple, tuple):
-            stack_object = InitStack.__stack_from_collections(input_collection=input_tuple)
+            stack_object = InitStack.__stack_from_collections(input_collection=input_tuple,input_type='tuple')
             return stack_object
         else:
-            raise TypeError('Input list must be a tuple type')
+            raise TypeError('Input collection must be a tuple type')
 
     @staticmethod
     def stack_from_set(input_set: set) -> object:
 
         if isinstance(input_set, set):
-            stack_object = InitStack.__stack_from_collections(input_collection=input_set)
+            stack_object = InitStack.__stack_from_collections(input_collection=input_set,input_type='set')
             return stack_object
         else:
-            raise TypeError('Input list must be a set type')
+            raise TypeError('Input collection must be a set type')
 
 
 
