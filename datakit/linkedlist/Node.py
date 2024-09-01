@@ -72,7 +72,7 @@ class DoublyNode(object):
 
         self.__next = next_node
 
-    def getnext(self) -> object:
+    def getnext(self) -> 'DoublyNode':
 
         return self.__next
 
@@ -80,7 +80,7 @@ class DoublyNode(object):
 
         self.__prev = prev_node
 
-    def getprev(self) -> object:
+    def getprev(self) -> 'DoublyNode':
 
         return self.__prev
 

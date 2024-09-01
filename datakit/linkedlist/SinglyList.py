@@ -71,6 +71,9 @@ class SinglyLinkedList(object):
 
     def insert_middle(self, pos: int, node: SinglyNode) -> bool:
 
+        if self.gethead() is None:
+            raise HeadNodeException(method='insert_middle')
+
         if pos == 0 or pos == self.getsize() - 1:
             print(bcolors.WARNING + 'To insert at front or rear end of the linkedlist , '
                                     'please use insert_front and insert_rear ' + bcolors.ENDC)
@@ -127,7 +130,7 @@ class SinglyLinkedList(object):
             pos_count += 1
         return False
 
-    def delete_at_start(self) -> bool:
+    def delete_front(self) -> bool:
 
         if self.gethead() is None:
             raise HeadNodeException(method='update_value')
@@ -136,13 +139,13 @@ class SinglyLinkedList(object):
             self.setsize(self.getsize()-1)
             return True
 
-    def delete_at_end(self) -> bool:
+    def delete_rear(self) -> bool:
 
         if self.gethead() is None:
             raise HeadNodeException(method='update_value')
 
         if self.getsize() == 1:
-            self.delete_at_start()
+            self.delete_front()
         else:
             current = self.gethead()
             prev = self.gethead()
@@ -153,10 +156,10 @@ class SinglyLinkedList(object):
             self.setsize(self.getsize() - 1)
             return True
 
-    def delete_at_pos(self, pos: int) -> bool:
+    def delete_middle(self, pos: int) -> bool:
 
         if self.gethead() is None:
-            raise HeadNodeException(method='update_value')
+            raise HeadNodeException(method='delete_middle')
 
         if pos > self.getsize() - 1 or pos < 0:
             reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
@@ -168,9 +171,9 @@ class SinglyLinkedList(object):
         prev = self.gethead()
         count = 0
         if pos == 0:
-            self.delete_at_start()
+            self.delete_front()
         elif pos == self.getsize() - 1:
-            self.delete_at_end()
+            self.delete_rear()
         else:
             while count != pos:
                 prev = current
