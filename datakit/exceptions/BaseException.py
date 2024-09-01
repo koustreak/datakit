@@ -21,7 +21,7 @@ class BaseException(Exception):
     Base Exception class ,
     Customized for datakit
     """
-    def __init__(self, code, message, context=None, *args):
+    def __init__(self, code, message, method, *args):
         # Initialize the base class with the message and any extra arguments
         BaseException.__validation(code)
         super().__init__(message, *args)
@@ -29,7 +29,7 @@ class BaseException(Exception):
         # Store custom attributes
         self.message = message
         self.code = code
-        self.context = context
+        self.method = method
         self.extra_info = args  # Store extra positional arguments
 
     @staticmethod
@@ -43,8 +43,8 @@ class BaseException(Exception):
         # Generate a string representation of the exception
         base_message = super().__str__()
         base_message += f" (Error Code: {self.code})"
-        if self.context is not None:
-            base_message += f" [Context: {self.context}]"
+        if self.method is not None:
+            base_message += f" [Context: {self.method}]"
         if self.extra_info:
             base_message += f" [Extra Info: {', '.join(map(str, self.extra_info))}]"
         return base_message

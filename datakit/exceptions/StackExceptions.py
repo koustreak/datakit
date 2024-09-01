@@ -16,75 +16,55 @@ Change History:
     - 22-Aug-2024: Initial Version of the script
 """
 
-
 from datakit.exceptions.BaseException import BaseException
 
 class StackOverflow(BaseException):
 
-    def __init__(self, *args) -> None:
+    def __init__(self, method, *args) -> None:
         super().__init__(code='STACK',message="Stack Overflow, Increase the size of the stack", \
-                         context=None, *args)
+                         method=method, *args)
 
 class StackEmpty(BaseException):
 
-    def __init__(self, *args) -> None:
+    def __init__(self, method, *args) -> None:
         super().__init__(code='STACK', message="Stack is empty, Insert element First", \
-                         context=None, *args)
-
-class ValidationTypeError(BaseException):
-
-    def __init__(self,msg,*args) -> None:
-        super().__init__(code="STACK", message="Validation Type Error "+str(msg), \
-                        context=None, *args)
-
-class StackPushError(BaseException):
-
-    def __init__(self,msg,*args) -> None:
-        super().__init__(code="STACK",message="Error while inserting data into stack "+str(msg), \
-                        context=None, *args)
-
-class StackPopError(BaseException):
-
-    def __init__(self,msg,*args) -> None:
-        super().__init__(code="STACK",message="Error while retrieving data from stack "+str(msg), \
-                        context=None, *args)
-
-class TempStackError(BaseException):
-
-    def __init__(self,msg,*args) -> None:
-        super().__init__(code="STACK", message='Error while doing push pop step with a temporary stack object '+msg,
-                         context=None, *args)
-
-class StackDownsizeError(BaseException):
-
-    def __init__(self,*args) -> None:
-        super().__init__(code="STACK", message='Can not downsize the error, as it can result in data leak \n'
-                         'if stack_downsize is forced then please disable safe_mode', context=None, *args)
-
-class StackUpsizeError(BaseException):
-
-    def __init__(self,*args) -> None:
-        super().__init__(code="STACK", message='Error while increasing the size of stack ', context=None, *args)
-
-class StackAverageError(BaseException):
-
-    def __init__(self,msg,*args) -> None:
-        super().__init__(code="STACK", message='To get average all element of the stack \
-                        should be int or float type '+str(msg),context=None, *args)
-
-class StackMinMaxError(BaseException):
-
-    def __init__(self,msg,*args) -> None:
-        super().__init__(code="STACK", message='Min Max can not be applied to a \
-                        heterogeneous collection object ' + str(msg), context=None, *args)
+                         method=method, *args)
 
 class StackInitError(BaseException):
 
-    def __init__(self,*args) -> None:
-        super().__init__(code="STACK", message='Can not Initialize a stack from the None input ',
-                         context=None, *args)
+    def __init__(self,msg,method,*args) -> None:
+        super().__init__(code="STACK", message="Validation Failed while initialize the stack "+str(msg), \
+                        method=method, *args)
 
+class StackPushError(BaseException):
 
+    def __init__(self,msg,method,*args) -> None:
+        super().__init__(code="STACK",message="Error while inserting data into stack "+str(msg), \
+                        method=method, *args)
+
+class StackPopError(BaseException):
+
+    def __init__(self,msg,method,*args) -> None:
+        super().__init__(code="STACK",message="Error while retrieving data from stack "+str(msg), \
+                        method=method, *args)
+
+class StackResizeError(BaseException):
+
+    def __init__(self,msg,method,resize_option,*args) -> None:
+        if resize_option == '-':
+            message = 'Can not downsize the stack, maybe the stack is empty or safe_mode is True '
+        else:
+            message = 'Error while increasing the size of the stack '
+        super().__init__(code="STACK", message=message+str(msg), method=method, *args)
+
+class StackStatisticsError(BaseException):
+
+    def __init__(self,msg,method,option,*args) -> None:
+        if option in ('max','min'):
+            message = 'To get min or max , the stack should be homogenous '
+        if option == 'avg':
+            message = 'To get average all element of the stack should be int or float type '
+        super().__init__(code="STACK", message=message+str(msg),method=method, *args)
 
 
 

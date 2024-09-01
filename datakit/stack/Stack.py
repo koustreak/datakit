@@ -23,13 +23,9 @@ from datakit.exceptions.StackExceptions import (
     StackInitError,
     StackOverflow,
     StackPushError,
-    StackDownsizeError,
-    ValidationTypeError,
     StackPopError,
-    StackUpsizeError,
-    TempStackError,
-    StackMinMaxError,
-    StackAverageError
+    StackResizeError,
+    StackStatisticsError
 )
 from datakit.exceptions.ConsolePrint import bcolors
 
@@ -44,23 +40,21 @@ class InitStack(object):
         self.__stack = [None] * size
         self.__top = -1
 
-        # print(f"Stack Object created : {self}")
-
     @staticmethod
     def __validation(size, safe_mode) -> None:
 
         if isinstance(size, int):
             if size < 0:
-                raise ValidationTypeError('stack size parameter should be positive integer')
+                raise StackInitError(msg='The size parameter should be positive integer',method='__validation')
 
         if not isinstance(size, int):
-            raise ValidationTypeError('stack size parameter should be integer type')
+            raise StackInitError(msg='The size parameter should be integer type',method='__validation')
 
         if size == 0:
             warnings.warn('size of stack is zero, still want to continue? ')
 
         if not isinstance(safe_mode, bool):
-            raise ValidationTypeError('safe_mode flag can only be True or False')
+            raise StackInitError(msg='safe_mode flag can only be True or False',method='__validation')
 
     def push(self, element=None) -> None:
 
