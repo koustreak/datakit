@@ -15,10 +15,14 @@ Dependencies: None
 Change History:
     - 27-Aug-2024: Initial Version of the script
 """
-
+import warnings
 from datakit.exceptions.ConsolePrint import bcolors
 from datakit.linkedlist.Node import DoublyNode
-from datakit.exceptions.ListException import InvalidParameter,HeadNodeException
+from datakit.exceptions.ListException import (
+    InvalidParameter,
+    HeadNodeException,
+    BrokenLinkException
+)
 
 class DoublyLinkedList(object):
 
@@ -120,7 +124,7 @@ class DoublyLinkedList(object):
     def delete_middle(self, pos: int) -> bool:
 
         if self.gethead() is None:
-            raise HeadNodeException(method='delete_middle+987')
+            raise HeadNodeException(method='delete_middle')
 
         if pos > self.getsize() - 1 or pos < 0:
             reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
@@ -141,5 +145,60 @@ class DoublyLinkedList(object):
                 current = current.getnext()
                 count += 1
             prev.setnext(current.getnext())
-            self.setsize(self.getsize() - 1)
+            current.getnext().setprev(prev)
+        self.setsize(self.getsize() - 1)
         return True
+
+    def update_value(self,prev_value,updated_value) -> bool:
+
+        if self.gethead() is None:
+            raise HeadNodeException(method='delete_middle')
+
+        current = self.gethead()
+        update_count = 0
+        while current is not None:
+            if current.getdata() == prev_value:
+                current.setdata(updated_value)
+                update_count += 1
+        if update_count:
+            return True
+        return False
+
+    def update_value_at_pos(self, pos:int, updated_value) -> bool:
+
+        if self.gethead() is None:
+            raise HeadNodeException(method='update_value_at_pos')
+
+        cur_node = self.gethead()
+        cur_pos = 0
+        while cur_node is not None:
+            if cur_pos == pos:
+                cur_node.setdata(updated_value)
+                return True
+            cur_node = cur_node.getnext()
+        return False
+
+    def pprint(self) -> None:
+
+        if self.gethead() is None:
+            warnings.warn('HeadNode is None , abort print of LinkedList')
+
+        current = self.gethead()
+        while current is not None:
+            if current.getnext() is not None:
+                if current.getnext().getprev() == current:
+                    print(current.getdata(),end=' <--> ')
+                else:
+                    raise BrokenLinkException(msg='can not print linkedlist',method='pprint')
+            else:
+                print(current.getdata())
+
+    def reverse(self):
+
+        if self.gethead() is None:
+            raise HeadNodeException(method='reverse')
+
+        current = self.gethead()
+        while current.getnext() is not None:
+            current = current.getnext()
+        self.sethead(current)

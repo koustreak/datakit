@@ -23,7 +23,7 @@ from datakit.exceptions.ListException import NoneNodeException, HeadNodeExceptio
 from datakit.exceptions.ListException import InvalidParameter
 from datakit.linkedlist.Node import SinglyNode
 
-class SinglyLinkedList(object):
+class InitSinglyList(object):
 
     def __init__(self) -> None:
 
@@ -54,7 +54,7 @@ class SinglyLinkedList(object):
         else:
             current = self.gethead()
             while current.getnext() is not None:
-                current = current.getNext()
+                current = current.getnext()
             current.setnext(node)
             self.setsize(self.getsize() + 1)
             return True
@@ -74,10 +74,10 @@ class SinglyLinkedList(object):
         if self.gethead() is None:
             raise HeadNodeException(method='insert_middle')
 
-        if pos == 0 or pos == self.getsize() - 1:
-            print(bcolors.WARNING + 'To insert at front or rear end of the linkedlist , '
-                                    'please use insert_front and insert_rear ' + bcolors.ENDC)
-            return False
+        if pos == 0:
+            self.insert_front(node)
+        elif pos == self.getsize()-1:
+            self.insert_rear(node)
         else:
             if pos > self.getsize() - 1 or pos < 0:
                 reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
@@ -148,7 +148,7 @@ class SinglyLinkedList(object):
             self.delete_front()
         else:
             current = self.gethead()
-            prev = self.gethead()
+            prev = None
             while current.getnext() is not None:
                 prev = current
                 current = current.getnext()
@@ -161,11 +161,12 @@ class SinglyLinkedList(object):
         if self.gethead() is None:
             raise HeadNodeException(method='delete_middle')
 
+        if not (isinstance(pos, int)):
+            raise TypeError('Invalid value of pos parameter , it must be an integer')
+
         if pos > self.getsize() - 1 or pos < 0:
             reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
             raise InvalidParameter(reason, 'position', pos, method='delete_at_pos')
-        if not (isinstance(pos, int)):
-            raise TypeError('Invalid value of pos parameter , it must be an integer')
 
         current = self.gethead()
         prev = self.gethead()
@@ -183,7 +184,7 @@ class SinglyLinkedList(object):
             self.setsize(self.getsize() - 1)
         return True
 
-    def print_list(self) -> None:
+    def pprint(self) -> None:
 
         if self.gethead() is None:
             raise HeadNodeException(method='update_value')
@@ -193,33 +194,35 @@ class SinglyLinkedList(object):
             if current.getnext() is not None:
                 print(current.getdata(),end='->')
             else:
-                print(current.getdata(),end='')
+                print(current.getdata())
             current = current.getnext()
 
-    def reverse(self,in_place=False) -> 'SinglyLinkedList':
+    def reverse(self) -> SinglyNode:
 
         if self.gethead() is None:
             raise HeadNodeException(method='update_value')
 
-        if in_place:
-            current = self.gethead()
-            prev = None
-            while current is not None:
-                next_node = current.getnext()
-                current.setnext(prev)
-                prev = current
-                current = next_node
-        else:
-            new_list = self.__class__()
-            current = self.gethead()
-            while current is not None:
-                if new_list.gethead() is None:
-                    new_list.sethead(current)
-                else:
-                    current.setnext(new_list.gethead())
-                    new_list.sethead(current)
-                current = current.getnext()
-            return new_list
+        current = self.gethead()
+        prev = None
+        while current is not None:
+            next_node = current.getnext()
+            current.setnext(prev)
+            prev = current
+            current = next_node
+        self.sethead(prev)
+
+    def reversed(self) -> 'InitSinglyList':
+        new_list = self.__class__()
+        current = self.gethead()
+        while current is not None:
+            new_node = current
+            if new_list.gethead() is None:
+                new_list.sethead(new_node)
+            else:
+                new_node.setnext(new_list.gethead())
+                new_list.sethead(new_node)
+            current = current.getnext()
+        return new_list
 
     def __get_stat(self,choice) -> object:
 
@@ -252,9 +255,9 @@ class SinglyLinkedList(object):
         return self.__get_stat('avg')
 
     @staticmethod
-    def __create_linkedlist_from_collection(collection,_type:str) -> 'SinglyLinkedList':
+    def __create_linkedlist_from_collection(collection,_type:str) -> 'InitSinglyList':
 
-        linkedlist = SinglyLinkedList()
+        linkedlist = InitSinglyList()
         for i in collection:
             node = SinglyNode(i)
             if linkedlist.gethead() is None:
@@ -264,25 +267,25 @@ class SinglyLinkedList(object):
         return linkedlist
 
     @staticmethod
-    def from_list(input_list: List) -> 'SinglyLinkedList':
+    def from_list(input_list: List) -> 'InitSinglyList':
 
         if not isinstance(input_list, list):
             raise TypeError('Input collection must be of type list')
-        return SinglyLinkedList.__create_linkedlist_from_collection(input_list,'list')
+        return InitSinglyList.__create_linkedlist_from_collection(input_list,'list')
 
     @staticmethod
-    def from_tuple(input_tuple: Tuple) -> 'SinglyLinkedList':
+    def from_tuple(input_tuple: Tuple) -> 'InitSinglyList':
 
         if not isinstance(input_tuple, tuple):
             raise TypeError('Input collection must be of type list')
-        return SinglyLinkedList.__create_linkedlist_from_collection(input_tuple,'tuple')
+        return InitSinglyList.__create_linkedlist_from_collection(input_tuple,'tuple')
 
     @staticmethod
-    def from_set(input_set: Set) -> 'SinglyLinkedList':
+    def from_set(input_set: Set) -> 'InitSinglyList':
 
         if not isinstance(input_set, set):
             raise TypeError('Input collection must be of type set')
-        return SinglyLinkedList.__create_linkedlist_from_collection(input_set,'set')
+        return InitSinglyList.__create_linkedlist_from_collection(input_set,'set')
 
 
 

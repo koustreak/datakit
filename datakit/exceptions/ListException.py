@@ -30,6 +30,12 @@ class NoneNodeException(BaseException):
         super().__init__(code='LINKEDLIST', message='Node Object is None ' + str(msg),
                          method=method, *args)
 
+class BrokenLinkException(BaseException):
+
+    def __init__(self,msg,method,*args):
+        super().__init__(code='LINKEDLIST', message='There is a broken link ' + str(msg),
+                         method=method, *args)
+
 class InvalidParameter(BaseException):
 
     def __init__(self,reason,param_name,param_value,method,*args):
