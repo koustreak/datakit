@@ -120,7 +120,7 @@ class DoublyLinkedList(object):
     def delete_middle(self, pos: int) -> bool:
 
         if self.gethead() is None:
-            raise HeadNodeException(method='delete_middle')
+            raise HeadNodeException(method='delete_middle+987')
 
         if pos > self.getsize() - 1 or pos < 0:
             reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
@@ -132,9 +132,9 @@ class DoublyLinkedList(object):
         prev = self.gethead()
         count = 0
         if pos == 0:
-            self.delete_at_start()
+            self.delete_front()
         elif pos == self.getsize() - 1:
-            self.delete_at_end()
+            self.delete_rear()
         else:
             while count != pos:
                 prev = current
