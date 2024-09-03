@@ -215,7 +215,7 @@ class InitSinglyList(object):
         new_list = self.__class__()
         current = self.gethead()
         while current is not None:
-            new_node = current
+            new_node = SinglyNode(current.getdata())
             if new_list.gethead() is None:
                 new_list.sethead(new_node)
             else:
