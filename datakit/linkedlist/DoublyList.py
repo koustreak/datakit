@@ -202,3 +202,5 @@ class DoublyLinkedList(object):
         while current.getnext() is not None:
             current = current.getnext()
         self.sethead(current)
+
+    

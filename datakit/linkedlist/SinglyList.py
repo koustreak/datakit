@@ -262,6 +262,7 @@ class InitSinglyList(object):
             node = SinglyNode(i)
             if linkedlist.gethead() is None:
                 linkedlist.sethead(node)
+                linkedlist.setsize(linkedlist.getsize()+1)
             else:
                 linkedlist.insert_rear(node)
         return linkedlist
