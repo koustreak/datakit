@@ -30,8 +30,9 @@ class TestStack(unittest.TestCase):
         self.assertEquals(list_obj.getsize(), 2, msg='Linked List delete test failed')
         self.assertEquals(list_obj.gethead().getdata(), 102, msg='Linked List delete test failed')
         list_obj.delete_rear()
-        self.assertEquals(list_obj.getsize(), 2, msg='Linked List delete test failed')
+        self.assertEquals(list_obj.getsize(), 1, msg='Linked List delete test failed')
         self.assertEquals(list_obj.gethead().getdata(), 102, msg='Linked List delete test failed')
+
 
 if __name__ == '__main__':
     unittest.main()

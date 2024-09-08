@@ -15,7 +15,9 @@ Dependencies: None
 Change History:
     - 27-Aug-2024: Initial Version of the script
 """
+
 import warnings
+from typing import *
 from datakit.exceptions.ConsolePrint import bcolors
 from datakit.linkedlist.Node import DoublyNode
 from datakit.exceptions.ListException import (
@@ -24,7 +26,7 @@ from datakit.exceptions.ListException import (
     BrokenLinkException
 )
 
-class DoublyLinkedList(object):
+class InitDoublyList(object):
 
     def __init__(self):
 
@@ -67,7 +69,7 @@ class DoublyLinkedList(object):
         self.setsize(self.getsize() + 1)
         return True
 
-    def insert_at_middle(self,pos:int, node:DoublyNode) -> bool:
+    def insert_middle(self,pos:int, node:DoublyNode) -> bool:
         if self.gethead() is None:
             raise HeadNodeException(method='insert_middle')
 
@@ -126,9 +128,14 @@ class DoublyLinkedList(object):
         if self.gethead() is None:
             raise HeadNodeException(method='delete_middle')
 
+        if pos == 0 or pos == self.getsize() - 1:
+            print(bcolors.WARNING + 'To delete at front or rear end of the linkedlist , '
+                                    'please use delete_front and delete_rear ' + bcolors.ENDC)
+            return False
+
         if pos > self.getsize() - 1 or pos < 0:
             reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
-            raise InvalidParameter(reason, 'position', pos, method='delete_at_pos')
+            raise InvalidParameter(reason, 'position', pos, method='delete_middle')
         if not (isinstance(pos, int)):
             raise TypeError('Invalid value of pos parameter , it must be an integer')
 
@@ -149,10 +156,10 @@ class DoublyLinkedList(object):
         self.setsize(self.getsize() - 1)
         return True
 
-    def update_value(self,prev_value,updated_value) -> bool:
+    def update_by_value(self,prev_value,updated_value) -> bool:
 
         if self.gethead() is None:
-            raise HeadNodeException(method='delete_middle')
+            raise HeadNodeException(method='update_by_value')
 
         current = self.gethead()
         update_count = 0
@@ -164,10 +171,16 @@ class DoublyLinkedList(object):
             return True
         return False
 
-    def update_value_at_pos(self, pos:int, updated_value) -> bool:
+    def update_by_pos(self, pos:int, updated_value) -> bool:
 
         if self.gethead() is None:
-            raise HeadNodeException(method='update_value_at_pos')
+            raise HeadNodeException(method='update_by_pos')
+
+        if pos > self.getsize() - 1 or pos < 0:
+            reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
+            raise InvalidParameter(reason, 'position', pos, method='update_by_pos')
+        if not (isinstance(pos, int)):
+            raise TypeError('Invalid value of pos parameter , it must be an integer')
 
         cur_node = self.gethead()
         cur_pos = 0
@@ -176,12 +189,13 @@ class DoublyLinkedList(object):
                 cur_node.setdata(updated_value)
                 return True
             cur_node = cur_node.getnext()
+            cur_pos += 1
         return False
 
     def pprint(self) -> None:
 
         if self.gethead() is None:
-            warnings.warn('HeadNode is None , abort print of LinkedList')
+            warnings.warn('HeadNode is None , can not print LinkedList')
 
         current = self.gethead()
         while current is not None:
@@ -200,7 +214,116 @@ class DoublyLinkedList(object):
 
         current = self.gethead()
         while current.getnext() is not None:
-            current = current.getnext()
+            next_node = current.getnext()
+            current.setprev(next_node)
+            current = next_node
         self.sethead(current)
+
+    def reversed(self) -> 'InitDoublyList':
+        new_list = self.__class__()
+        current = self.gethead()
+        while current is not None:
+            new_node = DoublyNode(current.getdata())
+            if new_list.gethead() is None:
+                new_list.sethead(new_node)
+            else:
+                new_node.setnext(new_list.gethead())
+                new_list.sethead(new_node)
+            current = current.getnext()
+        return new_list
+
+    def __get_stat(self,choice) -> object:
+
+        if self.gethead() is None:
+            raise HeadNodeException(method='update_value')
+
+        current = self.gethead()
+        elements = []
+
+        while current is not None:
+            elements.append(current.getdata())
+            current = current.getnext()
+        if choice == 'min':
+            return min(elements)
+        if choice == 'max':
+            return max(elements)
+        if choice == 'avg':
+            return sum(elements) / len(elements)
+
+    def getmax(self) -> object:
+
+        return self.__get_stat('max')
+
+    def getmin(self) -> object:
+
+        return self.__get_stat('min')
+
+    def getavg(self) -> object:
+
+        return self.__get_stat('avg')
+
+    @staticmethod
+    def __create_from_collection(collection,_type:str) -> 'InitDoublyList':
+
+        if not collection:
+            raise ValueError('Collection Object '+_type+' is empty')
+
+        linkedlist = InitDoublyList()
+        for i in collection:
+            node = DoublyNode(i)
+            if linkedlist.gethead() is None:
+                linkedlist.sethead(node)
+                linkedlist.setsize(linkedlist.getsize() + 1)
+            else:
+                linkedlist.insert_rear(node)
+        return linkedlist
+
+    @staticmethod
+    def from_list(input_list: List) -> 'InitDoublyList':
+
+        if not isinstance(input_list, list):
+            raise TypeError('Input collection must be of type list')
+        return InitDoublyList.__create_from_collection(input_list, 'list')
+
+    @staticmethod
+    def from_tuple(input_tuple: Tuple) -> 'InitDoublyList':
+
+        if not isinstance(input_tuple, tuple):
+            raise TypeError('Input collection must be of type list')
+        return InitDoublyList.__create_from_collection(input_tuple, 'tuple')
+
+    @staticmethod
+    def from_set(input_set: Set) -> 'InitDoublyList':
+
+        if not isinstance(input_set, set):
+            raise TypeError('Input collection must be of type set')
+        return InitDoublyList.__create_from_collection(input_set, 'set')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     

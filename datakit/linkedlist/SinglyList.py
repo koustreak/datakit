@@ -19,7 +19,7 @@ Change History:
 
 from typing import *
 from datakit.exceptions.ConsolePrint import bcolors
-from datakit.exceptions.ListException import NoneNodeException, HeadNodeException
+from datakit.exceptions.ListException import HeadNodeException
 from datakit.exceptions.ListException import InvalidParameter
 from datakit.linkedlist.Node import SinglyNode
 
@@ -255,7 +255,7 @@ class InitSinglyList(object):
         return self.__get_stat('avg')
 
     @staticmethod
-    def __create_linkedlist_from_collection(collection,_type:str) -> 'InitSinglyList':
+    def __create_from_collection(collection,_type:str) -> 'InitSinglyList':
 
         linkedlist = InitSinglyList()
         for i in collection:
@@ -272,21 +272,21 @@ class InitSinglyList(object):
 
         if not isinstance(input_list, list):
             raise TypeError('Input collection must be of type list')
-        return InitSinglyList.__create_linkedlist_from_collection(input_list,'list')
+        return InitSinglyList.__create_from_collection(input_list,'list')
 
     @staticmethod
     def from_tuple(input_tuple: Tuple) -> 'InitSinglyList':
 
         if not isinstance(input_tuple, tuple):
             raise TypeError('Input collection must be of type list')
-        return InitSinglyList.__create_linkedlist_from_collection(input_tuple,'tuple')
+        return InitSinglyList.__create_from_collection(input_tuple,'tuple')
 
     @staticmethod
     def from_set(input_set: Set) -> 'InitSinglyList':
 
         if not isinstance(input_set, set):
             raise TypeError('Input collection must be of type set')
-        return InitSinglyList.__create_linkedlist_from_collection(input_set,'set')
+        return InitSinglyList.__create_from_collection(input_set,'set')
 
 
 

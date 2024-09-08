@@ -24,12 +24,6 @@ class HeadNodeException(BaseException):
         super().__init__(code='LINKEDLIST',message='Head Node is None ',
                          method=method, *args)
 
-class NoneNodeException(BaseException):
-
-    def __init__(self,msg,method,*args):
-        super().__init__(code='LINKEDLIST', message='Node Object is None ' + str(msg),
-                         method=method, *args)
-
 class BrokenLinkException(BaseException):
 
     def __init__(self,msg,method,*args):
