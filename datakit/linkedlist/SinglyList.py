@@ -73,17 +73,17 @@ class InitSinglyList(object):
 
         if self.gethead() is None:
             raise HeadNodeException(method='insert_middle')
+        if not (isinstance(pos, int)):
+            raise TypeError('Invalid value of pos parameter , it must be an integer')
+        if pos > self.getsize() - 1 or pos < 0:
+            reason = f'Out of Bound exception , valid range > 0 and < {self.getsize()}'
+            raise InvalidParameter(reason, 'position', pos, method='insert_middle')
 
         if pos == 0:
             self.insert_front(node)
         elif pos == self.getsize()-1:
             self.insert_rear(node)
         else:
-            if pos > self.getsize() - 1 or pos < 0:
-                reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
-                raise InvalidParameter(reason,'position',pos,method='insert_middle')
-            if not (isinstance(pos,int)):
-                raise TypeError('Invalid value of pos parameter , it must be an integer')
             current = self.gethead()
             count = 0
             while count < pos-1:
@@ -94,7 +94,7 @@ class InitSinglyList(object):
             self.setsize(self.getsize() + 1)
             return True
 
-    def update_value(self, prev_value, curr_value) -> bool:
+    def update_by_value(self, prev_value, curr_value) -> bool:
 
         if self.gethead() is None:
             raise HeadNodeException(method='update_value')
@@ -109,16 +109,15 @@ class InitSinglyList(object):
             return True
         return False
 
-    def update_value_at_pos(self, pos: int, curr_value) -> bool:
+    def update_by_pos(self, pos: int, curr_value) -> bool:
 
         if self.gethead() is None:
             raise HeadNodeException(method='update_value')
-        else:
-            if pos > self.getsize() - 1 or pos < 0:
-                reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
-                raise InvalidParameter(reason, 'position', pos, method='update_value_at_pos')
-            if not (isinstance(pos, int)):
-                raise TypeError('Invalid value of pos parameter , it must be an integer')
+        if not (isinstance(pos, int)):
+            raise TypeError('Invalid value of pos parameter , it must be an integer')
+        if pos > self.getsize() - 1 or pos < 0:
+            reason = f'Out of Bound exception , valid range > 0 and < {self.getsize()}'
+            raise InvalidParameter(reason, 'position', pos, method='update_value_at_pos')
 
         current = self.gethead()
         pos_count = 0
@@ -165,24 +164,29 @@ class InitSinglyList(object):
             raise TypeError('Invalid value of pos parameter , it must be an integer')
 
         if pos > self.getsize() - 1 or pos < 0:
-            reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
-            raise InvalidParameter(reason, 'position', pos, method='delete_at_pos')
+            reason = f'Out of Bound exception , valid range > 0 and < {self.getsize()}'
+            raise InvalidParameter(reason, 'position', pos, method='delete_middle')
 
-        current = self.gethead()
-        prev = self.gethead()
-        count = 0
         if pos == 0:
             self.delete_front()
-        elif pos == self.getsize() - 1:
+        elif pos == self.getsize()-1:
             self.delete_rear()
         else:
-            while count != pos:
-                prev = current
-                current = current.getnext()
-                count += 1
-            prev.setnext(current.getnext())
-            self.setsize(self.getsize() - 1)
-        return True
+            current = self.gethead()
+            prev = self.gethead()
+            count = 0
+            if pos == 0:
+                self.delete_front()
+            elif pos == self.getsize() - 1:
+                self.delete_rear()
+            else:
+                while count != pos:
+                    prev = current
+                    current = current.getnext()
+                    count += 1
+                prev.setnext(current.getnext())
+                self.setsize(self.getsize() - 1)
+            return True
 
     def pprint(self) -> None:
 
@@ -254,9 +258,14 @@ class InitSinglyList(object):
 
         return self.__get_stat('avg')
 
+    def is_empty(self) -> bool:
+        return self.gethead() is None
+
     @staticmethod
     def __create_from_collection(collection,_type:str) -> 'InitSinglyList':
-
+        if not collection:
+            raise ValueError('Collection of type '+str(_type)+' is empty , '
+                                                              'hence can not create linkedlist from it')
         linkedlist = InitSinglyList()
         for i in collection:
             node = SinglyNode(i)
