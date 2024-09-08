@@ -5,4 +5,8 @@ __package__ = 'datakit'
 
 from datakit.exceptions import StackExceptions, ListException
 from datakit.stack import Stack
-from datakit.linkedlist import Node, SinglyList
+from datakit.linkedlist import (
+    Node,
+    SinglyList,
+    DoublyList
+)

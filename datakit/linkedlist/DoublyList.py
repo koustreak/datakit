@@ -33,13 +33,13 @@ class InitDoublyList(object):
         self.__head = None
         self.__size = 0
 
-    def sethead(self, head:DoublyNode) -> bool:
+    def sethead(self, head:DoublyNode) -> None:
         self.__head = head
 
     def gethead(self) -> DoublyNode:
         return self.__head
 
-    def setsize(self, size: int) -> bool:
+    def setsize(self, size: int) -> None:
         self.__size = size
 
     def getsize(self) -> int:
@@ -70,22 +70,23 @@ class InitDoublyList(object):
         return True
 
     def insert_middle(self,pos:int, node:DoublyNode) -> bool:
+
         if self.gethead() is None:
             raise HeadNodeException(method='insert_middle')
 
-        if pos == 0 or pos == self.getsize() - 1:
-            print(bcolors.WARNING + 'To insert at front or rear end of the linkedlist , '
-                                    'please use insert_front and insert_rear ' + bcolors.ENDC)
-            return False
+        if not (isinstance(pos, int)):
+            raise TypeError('Invalid value of pos parameter , it must be an integer')
+
+        if pos > self.getsize() - 1 or pos < 0:
+            reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
+            raise InvalidParameter(reason, 'position', pos, method='insert_middle')
+
+        if pos == 0 :
+            self.insert_front(node)
         else:
-            if pos > self.getsize() - 1 or pos < 0:
-                reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
-                raise InvalidParameter(reason, 'position', pos, method='insert_middle')
-            if not (isinstance(pos, int)):
-                raise TypeError('Invalid value of pos parameter , it must be an integer')
             current = self.gethead()
             count = 0
-            while count < pos - 1:
+            while count < pos-1:
                 current = current.getnext()
                 count += 1
 
@@ -128,14 +129,10 @@ class InitDoublyList(object):
         if self.gethead() is None:
             raise HeadNodeException(method='delete_middle')
 
-        if pos == 0 or pos == self.getsize() - 1:
-            print(bcolors.WARNING + 'To delete at front or rear end of the linkedlist , '
-                                    'please use delete_front and delete_rear ' + bcolors.ENDC)
-            return False
-
         if pos > self.getsize() - 1 or pos < 0:
             reason = f'Out of Bound exception , valid range is 0 to {self.getsize() - 1}'
             raise InvalidParameter(reason, 'position', pos, method='delete_middle')
+
         if not (isinstance(pos, int)):
             raise TypeError('Invalid value of pos parameter , it must be an integer')
 
@@ -206,6 +203,7 @@ class InitDoublyList(object):
                     raise BrokenLinkException(msg='can not print linkedlist',method='pprint')
             else:
                 print(current.getdata())
+            current = current.getnext()
 
     def reverse(self):
 

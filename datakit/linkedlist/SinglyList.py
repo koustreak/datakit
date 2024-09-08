@@ -31,19 +31,15 @@ class InitSinglyList(object):
         self.__size = 0
 
     def gethead(self) -> SinglyNode:
-
         return self.__head
 
     def getsize(self) -> int:
-
         return self.__size
 
     def setsize(self, size: int) -> None:
-
         self.__size = size
 
-    def sethead(self, node: SinglyNode) -> bool:
-
+    def sethead(self, node: SinglyNode) -> None:
         self.__head = node
 
     def insert_rear(self, node: SinglyNode) -> bool:
@@ -75,13 +71,13 @@ class InitSinglyList(object):
             raise HeadNodeException(method='insert_middle')
         if not (isinstance(pos, int)):
             raise TypeError('Invalid value of pos parameter , it must be an integer')
-        if pos > self.getsize() - 1 or pos < 0:
+        if pos > self.getsize() or pos < 0:
             reason = f'Out of Bound exception , valid range > 0 and < {self.getsize()}'
             raise InvalidParameter(reason, 'position', pos, method='insert_middle')
 
         if pos == 0:
             self.insert_front(node)
-        elif pos == self.getsize()-1:
+        elif pos == self.getsize():
             self.insert_rear(node)
         else:
             current = self.gethead()

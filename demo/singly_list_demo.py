@@ -1,5 +1,3 @@
-from networkx import current_flow_betweenness_centrality
-
 from datakit import SinglyList
 from datakit import Node
 
@@ -7,8 +5,18 @@ singlylist = SinglyList.InitSinglyList()
 print(singlylist.gethead())
 print(singlylist.getsize())
 singlylist.insert_front(Node.SinglyNode(100))
-singlylist.insert_front(Node.SinglyNode(101))
 singlylist.insert_rear(Node.SinglyNode(103))
+singlylist.insert_middle(1,Node.SinglyNode(200))
+singlylist.insert_middle(2,Node.SinglyNode(300))
+singlylist.insert_middle(4,Node.SinglyNode(400))
+singlylist.pprint()
+# check for delete
+singlylist.delete_front()
+singlylist.delete_rear()
+singlylist.pprint()
+singlylist.delete_middle(2)
+singlylist.pprint()
+'''
 singlylist.pprint()
 print(singlylist.gethead().getdata())
 print(singlylist.getsize())
@@ -39,3 +47,4 @@ print(new_list.getsize())
 print(new_list.getmax())
 print(new_list.getmin())
 print(new_list.getavg())
+'''
