@@ -10,7 +10,7 @@ Date: 26-Aug-2024
 Version: 1.0.1
 License: MIT License
 Usage:
-    - SinglyList.py, DoublyList.py
+    - singly_list.py, doubly_list.py
 Dependencies: None
 
 Change History:

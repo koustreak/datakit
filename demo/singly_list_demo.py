@@ -1,14 +1,14 @@
-from datakit import SinglyList
-from datakit import Node
+from datakit import singly_list
+from datakit import node
 
-singlylist = SinglyList.InitSinglyList()
+singlylist = singly_list.InitSinglyList()
 print(singlylist.gethead())
 print(singlylist.getsize())
-singlylist.insert_front(Node.SinglyNode(100))
-singlylist.insert_rear(Node.SinglyNode(103))
-singlylist.insert_middle(1,Node.SinglyNode(200))
-singlylist.insert_middle(2,Node.SinglyNode(300))
-singlylist.insert_middle(4,Node.SinglyNode(400))
+singlylist.insert_front(node.SinglyNode(100))
+singlylist.insert_rear(node.SinglyNode(103))
+singlylist.insert_middle(1,node.SinglyNode(200))
+singlylist.insert_middle(2,node.SinglyNode(300))
+singlylist.insert_middle(4,node.SinglyNode(400))
 singlylist.pprint()
 # check for delete
 singlylist.delete_front()

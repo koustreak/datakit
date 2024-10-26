@@ -18,7 +18,7 @@ Change History:
 
 import warnings
 from typing import List
-from datakit.exceptions.StackExceptions import (
+from datakit.exceptions.stack_exceptions import (
     StackEmpty,
     StackInitError,
     StackOverflow,
@@ -27,7 +27,7 @@ from datakit.exceptions.StackExceptions import (
     StackResizeError,
     StackStatisticsError
 )
-from datakit.exceptions.ConsolePrint import bcolors
+from datakit.exceptions.console_print import bcolors
 
 class InitStack(object):
 

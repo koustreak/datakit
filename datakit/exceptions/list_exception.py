@@ -9,14 +9,14 @@ Email: koushikdutta2024@outlook.com
 Date: 23-Aug-2024
 Version: 1.0.0
 License: MIT License
-Usage: Stack.py
+Usage: stack.py
 Dependencies: None
 
 Change History:
     - 23-Aug-2024: Initial Version of the script
 """
 
-from datakit.exceptions.BaseException import BaseException
+from datakit.exceptions.base_exception import BaseException
 
 class HeadNodeException(BaseException):
 

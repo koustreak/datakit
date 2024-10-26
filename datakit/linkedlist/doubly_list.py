@@ -9,7 +9,7 @@ Email: koushikdutta2024@outlook.com
 Date: 27-Aug-2024
 Version: 1.0
 License: MIT License
-Inheritance: ListException.py , StackException.py
+Inheritance: list_exception.py , StackException.py
 Dependencies: None
 
 Change History:
@@ -18,9 +18,9 @@ Change History:
 
 import warnings
 from typing import *
-from datakit.exceptions.ConsolePrint import bcolors
-from datakit.linkedlist.Node import DoublyNode
-from datakit.exceptions.ListException import (
+from datakit.exceptions.console_print import bcolors
+from datakit.linkedlist.node import DoublyNode
+from datakit.exceptions.list_exception import (
     InvalidParameter,
     HeadNodeException,
     BrokenLinkException

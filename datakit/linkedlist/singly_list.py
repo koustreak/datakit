@@ -10,7 +10,7 @@ Date: 28-Aug-2024
 Version: 1.0.1
 License: MIT License
 Usage:
-    - SinglyList.py
+    - singly_list.py
 Dependencies: None
 
 Change History:
@@ -18,10 +18,10 @@ Change History:
 """
 
 from typing import *
-from datakit.exceptions.ConsolePrint import bcolors
-from datakit.exceptions.ListException import HeadNodeException
-from datakit.exceptions.ListException import InvalidParameter
-from datakit.linkedlist.Node import SinglyNode
+from datakit.exceptions.console_print import bcolors
+from datakit.exceptions.list_exception import HeadNodeException
+from datakit.exceptions.list_exception import InvalidParameter
+from datakit.linkedlist.node import SinglyNode
 
 class InitSinglyList(object):
 

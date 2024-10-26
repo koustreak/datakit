@@ -10,7 +10,7 @@ Date: 22-Aug-2024
 Version: 1.0.0
 License: MIT License
 Usage:
-    Stack.py, SinglyList.py, Node.py
+    stack.py, singly_list.py, node.py
 Dependencies: None
 
 Change History:

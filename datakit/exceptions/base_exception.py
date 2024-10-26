@@ -9,7 +9,7 @@ Email: koushikdutta2024@outlook.com
 Date: 20-Aug-2024
 Version: 1.0.0
 License: MIT License
-Inheritance: ListException.py , StackException.py
+Inheritance: list_exception.py , StackException.py
 Dependencies: None
 
 Change History:

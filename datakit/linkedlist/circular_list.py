@@ -9,16 +9,16 @@ Email: koushikdutta2024@outlook.com
 Date: 27-Aug-2024
 Version: 1.0
 License: MIT License
-Inheritance: ListException.py , StackException.py
+Inheritance: list_exception.py , StackException.py
 Dependencies: None
 
 Change History:
     - 27-Aug-2024: Initial Version of the script
 """
-from datakit.exceptions.ListException import HeadNodeException
-from datakit.linkedlist.Node import SinglyNode
+from datakit.exceptions.list_exception import HeadNodeException
+from datakit.linkedlist.node import SinglyNode
 
-class CircularLinkedList(object):
+class InitCircularList(object):
 
     def __init__(self):
         self.__head:SinglyNode = None
