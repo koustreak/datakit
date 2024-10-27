@@ -27,27 +27,27 @@ class SinglyNode(object):
         self.__data = data
         self.__next = next_node
 
-    def setdata(self, data) -> None:
+    def set_data(self, data) -> None:
 
         self.__data = data
 
-    def getdata(self) -> object:
+    def get_data(self) -> object:
 
         return self.__data
 
-    def setnext(self, next_node: object) -> None:
+    def set_next(self, next_node: object) -> None:
 
         self.__next = next_node
 
-    def getnext(self) -> 'SinglyNode':
+    def get_next(self) -> 'SinglyNode':
 
         return self.__next
 
-    def hasnext(self) -> bool:
+    def has_next(self) -> bool:
 
         return self.__next is not None
 
-    def hasdata(self) -> bool:
+    def has_data(self) -> bool:
 
         return self.__data is not None
 
@@ -60,38 +60,38 @@ class DoublyNode(object):
         self.__next = next_node
         self.__prev = prev
 
-    def setdata(self, data) -> None:
+    def set_data(self, data) -> None:
 
         self.__data = data
 
-    def getdata(self) -> object:
+    def get_data(self) -> object:
 
         return self.__data
 
-    def setnext(self, next_node: object) -> None:
+    def set_next(self, next_node: object) -> None:
 
         self.__next = next_node
 
-    def getnext(self) -> 'DoublyNode':
+    def get_next(self) -> 'DoublyNode':
 
         return self.__next
 
-    def setprev(self, prev_node: object) -> None:
+    def set_prev(self, prev_node: object) -> None:
 
         self.__prev = prev_node
 
-    def getprev(self) -> 'DoublyNode':
+    def get_prev(self) -> 'DoublyNode':
 
         return self.__prev
 
-    def hasnext(self) -> bool:
+    def has_next(self) -> bool:
 
         return self.__next is not None
 
-    def hasprev(self) -> bool:
+    def has_prev(self) -> bool:
 
         return self.__prev is not None
 
-    def hasdata(self) -> object:
+    def has_data(self) -> object:
 
         return self.__data is not None
