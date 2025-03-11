@@ -27,9 +27,9 @@ from typing import (
 if TYPE_CHECKING:
     from datakit.linkedlist.node import SinglyNode
 
-from datakit.exceptions.list_exception import HeadNodeException
-from datakit.exceptions.list_exception import InvalidParameter
-from datakit.exceptions.list_exception import ListIsEmpty
+from datakit.util.exception.linkedlist import HeadNodeException
+from datakit.util.exception.linkedlist import InvalidParameter
+from datakit.util.exception.linkedlist import ListIsEmpty
 from datakit.linkedlist.node import SinglyNode
 
 class InitSinglyList(object):

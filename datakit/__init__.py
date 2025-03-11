@@ -1,13 +1,23 @@
-__version__ = '0.1.0'
-__author__ = 'koushik dutta'
-__email__ = 'koushikdutta2024@outlook.com'
-__package__ = 'datakit'
+"""
+datakit - A comprehensive Python module for data structures.
 
-from datakit.exceptions import stack_exceptions, list_exception
-from datakit.linkedlist import (
-    node,
-    singly_list,
-    doubly_list,
-    circular_list
-)
-from datakit.stack import stack
+Author: Your Name
+GitHub: https://github.com/koustreak/datakit
+License: MIT
+Version: 1.0.0
+Description:
+    datakit provides an extensive collection of data structures,
+    optimized for performance and ease of use.
+
+    Features:
+    - Linked Lists (Singly, Doubly, Circular)
+    - Stacks & Queues
+    - Trees & Graphs
+    - Hash Tables & Heaps
+    - Advanced Structures (Trie, Bloom Filter, etc.)
+
+"""
+
+__version__ = "1.0.0"
+__author__ = "Your Name"
+__license__ = "MIT"

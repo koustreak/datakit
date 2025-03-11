@@ -2,7 +2,7 @@ import unittest
 from datakit import node
 from datakit import singly_list
 from datakit import list_exception
-from datakit.exceptions.list_exception import InvalidParameter
+from datakit.util.exception.linkedlist import InvalidParameter
 
 
 class TestStack(unittest.TestCase):

@@ -1,10 +1,10 @@
-from datakit import stack
+from datakit.stack import InitStack
 
 #create stack_object
-stack_obj = stack.InitStack(10)
+stack_obj = InitStack(10)
 
 #print stack size
-print('Stack Size is ',stack_obj.get_stack_size(),'a')
+print('Stack Size is ',stack_obj.get_stack_size())
 
 #insert into stack
 stack_obj.push(100)
@@ -17,13 +17,5 @@ print(stack_obj.get_stack_size())
 print(stack_obj.get_top())
 stack_obj.print_stack()
 
-stack_obj.pop()
-stack_obj.pop()
-stack_obj.pop()
-stack_obj.print_stack()
-
-print('------------------------')
-print(stack_obj.get_top())
-print(stack_obj.spaces_left())
-# need to delete the stack object
-del stack_obj
+x = InitStack.stack_from_list([1,2,3,4])
+x.print_stack()

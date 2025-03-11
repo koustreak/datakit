@@ -1,6 +1,7 @@
 import unittest
 from datakit import stack
-from datakit.exceptions import stack_exceptions
+from datakit.util.exception import stack
+
 
 class Teststack(unittest.TestCase):
 
@@ -29,9 +30,9 @@ class Teststack(unittest.TestCase):
         del stack_obj
 
     def test_validation_method(self):
-        with self.assertRaises(stack_exceptions.StackInitError,msg='Validation Method test case failed'):
+        with self.assertRaises(stack_exceptions.StackInitError, msg='Validation Method test case failed'):
             stack.InitStack(-10)
-        with self.assertRaises(stack_exceptions.StackInitError,msg='Validation Method test case failed'):
+        with self.assertRaises(stack_exceptions.StackInitError, msg='Validation Method test case failed'):
             stack.InitStack('stacksize=100')
 
     def test_stack_overflow(self):
@@ -41,13 +42,13 @@ class Teststack(unittest.TestCase):
         stack_obj.push(300)
         stack_obj.push(400)
         stack_obj.push(500)
-        with self.assertRaises(stack_exceptions.StackOverflow,msg='stack Overflow test case failed'):
+        with self.assertRaises(stack_exceptions.StackOverflow, msg='stack Overflow test case failed'):
             stack_obj.push(600)
         del stack_obj
 
     def test_stack_emptypop(self):
         stack_obj = stack.InitStack(10)
-        with self.assertRaises(stack_exceptions.StackEmpty,msg='stackEmpty test case failed'):
+        with self.assertRaises(stack_exceptions.StackEmpty, msg='stackEmpty test case failed'):
             stack_obj.pop()
 
     def test_stack_size_increase(self):

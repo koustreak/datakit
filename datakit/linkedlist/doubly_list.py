@@ -3,13 +3,13 @@
 
 """
 Title: BaseException
-Description: This is the parent class of all exceptions for datakit
+Description: This is the parent class of all util for datakit
 Author: Koushik Dutta
 Email: koushikdutta2024@outlook.com
 Date: 27-Aug-2024
 Version: 1.0
 License: MIT License
-Inheritance: list_exception.py , StackException.py
+Inheritance: linkedlist.py , StackException.py
 Dependencies: None
 
 Change History:
@@ -18,9 +18,9 @@ Change History:
 
 import warnings
 from typing import *
-from datakit.exceptions.console_print import bcolors
+from datakit.util.console_print import bcolors
 from datakit.linkedlist.node import DoublyNode
-from datakit.exceptions.list_exception import (
+from datakit.util.exception.linkedlist import (
     InvalidParameter,
     HeadNodeException,
     BrokenLinkException
